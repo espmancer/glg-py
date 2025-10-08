@@ -30,4 +30,6 @@ Recipes are lists of items. They contain a name, type, and list of items, and ar
   ]
 }
 ```
-
+## Future Ideas
+- I will start with text-based then move to Tkinter. This one is confirmed.
+- I may try and make this compatible with mobile and remove a computer from the equation altogether. Python has an [Android library](https://pypi.org/project/python-for-android/) that I might be able to use.

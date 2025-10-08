@@ -5,4 +5,15 @@ A grocery list generator made in [Python](https://www.python.org). Originally I 
 - There are functions to add, remove, and edit these dictionaries.
 - Once the list is configured, an alphanumerically sorted list of items and their aisles is created, with each item having the markdown checkbox.
   - [ ] Like this
-
+### Items
+Items are the most concrete level of elements in the list. They contain a name, type, and set of aisles, which is formatted as such:
+```
+{
+  "name":"Element Name",
+  "type":"item",
+  "aisle": {
+    "College":"A1",
+    "Grandparents":"A2"
+  }
+```
+Currently the aisles are hardcoded and are specific to Walmart's aisle system, but I may add functionality to add and edit stores and their particular locations.  

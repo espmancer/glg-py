@@ -26,5 +26,23 @@ def add_item():
                     })
     set_item_index(len(item_list) - 1)
 
-add_item()
-print(item_list[current_item_index])
+def list_items():
+    for i in range(len(item_list)):
+        print(f"{i} - {item_list[i]["name"]}")
+
+def delete_item():
+    set_item_index(int(input("Choose 1 number from the list of items: ")))
+    item_list.remove(current_item_index)
+    set_item_index(0)
+
+def edit_item():
+    list_items()
+    set_item_index(int(input("Choose 1 number from the list of items: ")))
+    for key in item_list[current_item_index]:
+        print(item_list[current_item_index][key])
+
+
+
+
+
+edit_item()

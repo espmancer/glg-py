@@ -1,6 +1,9 @@
 # NOTE: Temporary one-file version of the code until I can figure out how to refactor it. 
 import tkinter as tk
 
+# Locations
+locations = ['College', 'Grandparents', 'Jordan']
+
 # Main Screen #
 root = tk.Tk()
 root.title("GLG")
@@ -17,7 +20,39 @@ def open_item_screen():
     item_screen.minsize(200, 200)
     item_screen.maxsize(500, 500)
     item_screen.geometry("200x200+100+100")
-
+    
+    # Item Attribute Grid 
+    options_rows = 5
+    options_columns = 2
+    for columns in range(options_columns):
+        root.columnconfigure(columns, weight = 1)
+    
+        for rows in range(options_rows):
+            root.rowconfigure(rows, weight = 1)
+    
+    # Item Name 
+    item_name_lbl = tk.Label(item_screen, text = "Item Name")
+    item_name_lbl.grid(column = 0, row = 0)
+    item_name_etr = tk.Entry(item_screen)
+    item_name_etr.grid(column = 1, row = 0)
+    # Item Aisles 
+    aisle_lbls = []
+    aisle_etrs = []
+    current_row = 1
+    
+    for location in locations:
+        aisle_lbls.append(tk.Label(item_screen, text = location + " Aisle"))
+        aisle_etrs.append(tk.Entry(item_screen))
+        aisle_lbls[current_row - 1].grid(column = 0, row = current_row)        
+        aisle_etrs[current_row - 1].grid(column = 1, row = current_row)
+        current_row += 1
+    # Save Button
+    # TODO: Figure out why the button text doesn't center
+    save_btn = tk.Button(item_screen, text = "Save", width = 10, anchor = "center", command = save_item)
+    save_btn.grid(columnspan = 2, row = 5, sticky = 'nsew')
+    
+def save_item():
+    pass
 ## Main Screen Widgets ##
 options_rows = 3
 options_columns = 3

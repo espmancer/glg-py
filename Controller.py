@@ -22,9 +22,7 @@ class Controller:
     @staticmethod
     def return_item_list():
         item_list = [{"name":"Element Name","type":"item","aisle": {"College":"A1","Grandparents":"A2","Jordan":"A3"}}]
-        item_names = {}
-        for i in range(len(item_list)):
-            item_names.update({i: item_list[i]['name']})
+        item_names = [item['name'] for item in item_list]
 
         return item_names
     def delete_item(self):

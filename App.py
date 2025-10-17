@@ -24,8 +24,10 @@ class App(tk.Frame):
                             
         # Items
         # Item List
-        item_list = Controller.return_item_list()
-        item_listbox = tk.Listbox(root, cnf = item_list)
+        item_listbox = tk.Listbox(root)
+        
+        for item in Controller.return_item_list():
+            item_listbox.insert(tk.END, item)
         item_listbox.grid(column = 0, row = 0, rowspan = 3)
         # Add Item
         add_item_btn = tk.Button(root, text = "Add Item", command = Controller.add_item)
@@ -46,7 +48,6 @@ class App(tk.Frame):
         # Remove Recipe
         remove_recipe_btn = tk.Button(root, text = "Remove Recipe")
         remove_recipe_btn.grid(column = 2, row = 2)
-
 
 if __name__ == "__main__":
     root = tk.Tk()

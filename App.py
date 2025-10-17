@@ -1,5 +1,6 @@
 import tkinter as tk
 from Controller import Controller
+from Item import Item
 
 class App(tk.Frame):
     def __init__(self, root):
@@ -9,13 +10,6 @@ class App(tk.Frame):
         self.root.maxsize(500, 500)
         self.root.geometry("300x300+50+50")
         self.create_widgets()
-
-    def open_item_window():
-        item_window = tk.Toplevel(root)    
-        item_window.title("Item")
-        item_window.geometry("200x200+50+50")
-        tk.Label(item_window, text = "Item Name").pack()
-        tk.Entry(item_window).pack()
         
     def create_widgets(self):
         # Options Grid 
@@ -37,7 +31,7 @@ class App(tk.Frame):
         item_listbox.grid(column = 0, row = 0, rowspan = 3)
 
         # Add Item
-        add_item_btn = tk.Button(root, text = "Add Item", command = App.open_item_window)
+        add_item_btn = tk.Button(root, text = "Add Item", command = lambda: Item.open_item_window(self))
         add_item_btn.grid(column = 1, row = 0, padx = 3)
 
         # Edit Item

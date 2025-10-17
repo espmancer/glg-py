@@ -10,8 +10,13 @@ class App(tk.Frame):
         self.root.geometry("300x300+50+50")
         self.create_widgets()
 
-    def open_item_window(self):
-        self.root.Window()    
+    def open_item_window():
+        item_window = tk.Toplevel(root)    
+        item_window.title("Item")
+        item_window.geometry("200x200+50+50")
+        tk.Label(item_window, text = "Item Name").pack()
+        tk.Entry(item_window).pack()
+        
     def create_widgets(self):
         # Options Grid 
         options_rows = 3
@@ -22,29 +27,36 @@ class App(tk.Frame):
             for rows in range(options_rows):
                 self.root.rowconfigure(rows, weight = 1)
                             
-        # Items
+        # Items #
         # Item List
         item_listbox = tk.Listbox(root)
         
         for item in Controller.return_item_list():
             item_listbox.insert(tk.END, item)
+
         item_listbox.grid(column = 0, row = 0, rowspan = 3)
+
         # Add Item
-        add_item_btn = tk.Button(root, text = "Add Item", command = Controller.add_item)
+        add_item_btn = tk.Button(root, text = "Add Item", command = App.open_item_window)
         add_item_btn.grid(column = 1, row = 0, padx = 3)
+
         # Edit Item
         edit_item_btn = tk.Button(root, text = "Edit Item")
         edit_item_btn.grid(column = 1, row = 1, padx = 3)
+
         # Remove Item
         remove_item_btn = tk.Button(root, text = "Remove Item")
         remove_item_btn.grid(column = 1, row = 2, padx = 3)
-        # Recipes
+
+        # Recipes #
         # Add Recipe
         add_recipe_btn = tk.Button(root, text = "Add Recipe")
         add_recipe_btn.grid(column = 2, row = 0)
+
         # Edit Recipe 
         edit_recipe_btn = tk.Button(root, text = "Edit Recipe")
         edit_recipe_btn.grid(column = 2, row = 1)
+
         # Remove Recipe
         remove_recipe_btn = tk.Button(root, text = "Remove Recipe")
         remove_recipe_btn.grid(column = 2, row = 2)

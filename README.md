@@ -1,7 +1,7 @@
 # glg-py
 A grocery list generator made in [Python](https://www.python.org). Originally I used [Dataview](https://github.com/blacksmithgu/obsidian-dataview) within [Obsidian](https://obsidian.md/) to generate a numerically sorted list of items I linked in another list of recipes. Each entry was its own page with metadata, which got tricky to work with on mobile. After that I tried to make it in using [JSON](https://en.wikipedia.org/wiki/JSON) and a [JSONPath](https://en.wikipedia.org/wiki/JSONPath) addon in [LabVIEW](https://www.ni.com/en/support/downloads/software-products/download.labview.html#570679) called [JSONText](https://www.vipm.io/package/jdp_science_jsontext/), but I suddenly needed to fix problems in that [JSONText](https://www.vipm.io/package/jdp_science_jsontext/) library in order to get it to do what I wanted, so I switched to [Python](https://www.python.org) instead.
 ## How It Works
-- This program uses and manipulates a list of dictionaries stored in a txt file within your system's local appdata folder. It will be under a GLG folder if you want to manually edit it for some reason.
+- This program uses and manipulates a list of dictionaries stored in a txt file within the application.
 - There are functions to add, remove, and edit these dictionaries.
 - Once the list is configured, an alphanumerically sorted list of items and their aisles is created, with each item having the markdown checkbox.
   - [ ] Like this

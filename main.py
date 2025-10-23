@@ -20,6 +20,9 @@ class Backend:
         print("Closing!")
         with open(self.filename, "w", encoding="utf-8") as f:
             f.write("\n".join(self.raw_list))
+
+    def add_item(self, entry):
+        self.items.append(entry)
 # Main Loop
 def main():
     backend = Backend()

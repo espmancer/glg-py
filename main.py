@@ -15,6 +15,11 @@ class Backend:
         self.recipes = [entry for entry in self.raw_list if entry.startswith("R:")]
         self.locations = ["College", "Grandparents", "Jordan"]
            
+    def close(self):
+        self.raw_list = self.items + self.recipes
+        print("Closing!")
+        with open(self.filename, "w", encoding="utf-8") as f:
+            f.write("\n".join(self.raw_list))
 # Main Loop
 def main():
     backend = Backend()

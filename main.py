@@ -23,6 +23,9 @@ class Backend:
 
     def add_item(self, entry):
         self.items.append(entry)
+
+    def add_recipe(self, entry):
+        self.recipes.append(entry)
 # Main Loop
 def main():
     backend = Backend()

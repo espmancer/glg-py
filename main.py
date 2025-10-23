@@ -18,10 +18,9 @@ class Backend:
         self.locations = ["College", "Grandparents", "Jordan"]
            
     def close(self, root):
-        self.raw_list = self.items + self.recipes
-        print("Closing!")
+        print(f"Closing!\nItems:{self.items}\nRecipes:{self.recipes}")
         with open(self.filename, "w", encoding="utf-8") as f:
-            f.write("\n".join(self.raw_list))
+            f.write("\n".join(self.items + self.recipes))
 
         root.destroy()
     
@@ -38,22 +37,26 @@ class Backend:
     def edit_item(self, old_name, entry):
         self.items[self.item_names.index(old_name)] = entry
 
+class Frontend:
+    def __init__(self, backend, root = tk.Tk()):
+        self.backend = backend
+        self.root = root
+        root.title("GLG")
+        root.title("GLG")
+        root.minsize(200, 200)
+        root.maxsize(500, 500)
+        root.geometry("300x300+50+50")
+        root.protocol("WM_DELETE_WINDOW", lambda: self.backend.close(root))
+        root.mainloop()
+
 # Main Loop
 def main():
     backend = Backend()
     backend.add_item("I:Item A|A1|A2|A3")
     backend.edit_item("Item A", "I:Item B|A2|A3|A4")
     print(backend.get_item_list())
-
-    # Main Screen #
-    # root = tk.Tk()
-    # root.title("GLG")
-    # root.title("GLG")
-    # root.minsize(200, 200)
-    # root.maxsize(500, 500)
-    # root.geometry("300x300+50+50")
-    # root.protocol("WM_DELETE_WINDOW", lambda: backend.close(root))
-    # root.mainloop()
+    
+    frontend = Frontend(backend)
 
 if __name__ == "__main__":
     main()

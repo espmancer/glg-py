@@ -15,11 +15,13 @@ class Backend:
         self.recipes = [entry for entry in self.raw_list if entry.startswith("R:")]
         self.locations = ["College", "Grandparents", "Jordan"]
            
-    def close(self):
+    def close(self, root):
         self.raw_list = self.items + self.recipes
         print("Closing!")
         with open(self.filename, "w", encoding="utf-8") as f:
             f.write("\n".join(self.raw_list))
+
+        root.destroy()
 
     def add_item(self, entry):
         self.items.append(entry)
@@ -29,9 +31,8 @@ class Backend:
 # Main Loop
 def main():
     backend = Backend()
-    recipe = backend.build_recipe("Recipe B", ["Item A", "Item C"])
-    backend.add_recipe(recipe)
-    backend.close()
+    backend.add_recipe("Recipe B|Item A,Item B")
+
     # Main Screen #
     root = tk.Tk()
     root.title("GLG")
@@ -39,7 +40,7 @@ def main():
     root.minsize(200, 200)
     root.maxsize(500, 500)
     root.geometry("300x300+50+50")
-    root.protocol("WM_DELETE_WINDOW", backend.close)
+    root.protocol("WM_DELETE_WINDOW", lambda: backend.close(root))
     root.mainloop()
 
 if __name__ == "__main__":

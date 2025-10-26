@@ -20,36 +20,59 @@ class Backend:
         self.locations = ["College", "Grandparents", "Jordan"]
            
     def close(self, root):
-        print(f"Closing!\nItems:{','.join(self.item_names)}\nRecipes:{self.recipes}")
+        print(f"Closing!\nItems:{self.get_item_lists('name')}\nRecipes:{self.get_recipe_lists('name')}")
         with open(self.filename, "w", encoding="utf-8") as f:
             f.write("\n".join(self.items + self.recipes))
 
         root.destroy()
     
-    def get_item_list(self):
-        return self.items
+    # TODO: Make non-hardcoded locations for this function
+    def get_item_lists(self, section=None):
+        item_names = [entry[2:].split('|')[0] for entry in self.items]
+        college_aisles = [entry.split('|')[1] for entry in self.items]
+        grandparents_aisles = [entry.split('|')[2] for entry in self.items]
+        jordan_aisles = [entry.split('|')[3] for entry in self.items]
 
+        if section == None:
+            return self.items
+        elif section == "name":
+            return item_names
+        elif section == "college":
+            return college_aisles
+        elif section == "grandparents":
+            return grandparents_aisles
+        elif section == "jordan":
+            return jordan_aisles
+        
     def add_item(self, entry):
         self.items.append(entry)
-        self.item_names = [entry[2:].split('|')[0] for entry in self.items if entry[0] == 'I']
+        self.item_names = [entry[2:].split('|')[0] for entry in self.items]
 
     def edit_item(self, old_name, entry):
         self.items[self.item_names.index(old_name)] = entry
-        self.item_names = [entry[2:].split('|')[0] for entry in self.items if entry[0] == 'I']
+        self.item_names = [entry[2:].split('|')[0] for entry in self.items]
 
     def delete_item(self, name):
         self.items.remove(self.item_names.index(name))
 
-    def get_recipe_list(self):
-        return self.recipes
+    def get_recipe_lists(self, section=None):
+        recipe_names = [entry[2:].split('|')[0] for entry in self.recipes]
+        recipe_items = [entry.split('|')[1] for entry in self.recipes]
 
+        if section == None:
+            return self.recipes
+        elif section == "name":
+            return recipe_names
+        elif section == "items":
+            return recipe_items
+        
     def add_recipe(self, entry):
         self.recipes.append(entry)
-        self.recipe_names = [entry[2:].split('|')[0] for entry in self.recipes if entry[0] == 'I']
+        self.recipe_names = [entry[2:].split('|')[0] for entry in self.recipes]
 
     def edit_recipe(self, old_name, entry):
         self.recipes[self.recipe_names.index(old_name)] = entry
-        self.recipe_names = [entry[2:].split('|')[0] for entry in self.recipes if entry[0] == 'I']
+        self.recipe_names = [entry[2:].split('|')[0] for entry in self.recipes]
 
     def delete_recipe(self, name):
         self.recipes.remove(self.recipe_names.index(name))
@@ -75,6 +98,7 @@ class Frontend:
         # Main Menu (Notebook)
         tab_ntbk = ttk.Notebook(root)
         tab_ntbk.pack(fill="both", expand=True)
+        tab_ntbk.bind('<<NotebookTabChanged>>', lambda event: self.update_lists(backend))
 
         list_frame = tk.Frame(tab_ntbk)
         item_frame = tk.Frame(tab_ntbk)
@@ -101,8 +125,8 @@ class Frontend:
             for row in range(3):
                 item_frame.rowconfigure(row, weight=1)
         
-        item_list = tk.Listbox(item_frame, listvariable=self.backend.get_item_list())
-        item_list.grid(column=0, row=0, rowspan=3)
+        self.item_lbox = tk.Listbox(item_frame, listvariable=self.backend.get_item_lists())
+        self.item_lbox.grid(column=0, row=0, rowspan=3)
         add_item_btn = tk.Button(item_frame, text="Add Item", command=lambda: backend.add_item(""))
         add_item_btn.grid(column=1, row=0)
         edit_item_btn = tk.Button(item_frame, text="Edit Item", command=lambda: backend.edit_item(""))
@@ -116,8 +140,8 @@ class Frontend:
             for row in range(3):
                 recipe_frame.rowconfigure(row, weight=1)
 
-        recipe_list = tk.Listbox(recipe_frame, listvariable=self.backend.get_recipe_list())
-        recipe_list.grid(column=0, row=0, rowspan=3)
+        self.recipe_lbox = tk.Listbox(recipe_frame, listvariable=self.backend.get_recipe_lists())
+        self.recipe_lbox.grid(column=0, row=0, rowspan=3)
         add_recipe_btn = tk.Button(recipe_frame, text="Add Recipe", command=lambda: backend.add_recipe(""))
         add_recipe_btn.grid(column=1, row=0)
         edit_recipe_btn = tk.Button(recipe_frame, text="Edit Recipe", command=lambda: backend.edit_recipe(""))
@@ -127,10 +151,21 @@ class Frontend:
 
         root.mainloop()
 
+    def update_lists(self, backend):
+        # Item List
+        self.item_lbox.delete(0, tk.END)
+        for item in self.backend.get_item_lists("name"):
+            self.item_lbox.insert(tk.END, item)
+
+        # Recipe List
+        self.recipe_lbox.delete(0, tk.END)
+        for recipe in self.backend.get_recipe_lists("name"):
+            self.recipe_lbox.insert(tk.END, recipe)
+
 # Main Loop
 def main():
     backend = Backend()
-    print(backend.get_item_list())
+    print(backend.get_item_lists())
     
     frontend = Frontend(backend)
 

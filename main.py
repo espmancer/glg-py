@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 class Backend:
+    # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
     def __init__(self, filename="grocery_list.txt"):
         self.filename = filename
 
@@ -28,19 +29,9 @@ class Backend:
     def get_item_list(self):
         return self.items
 
-    def generate_list(self, user_list):
-        final_list = []
-
-        for i in range(len(user_list)):
-            if user_list[i] == self.item_names:
-                final_list.append(f"{self.items[i]}")
-
     def add_item(self, entry):
         self.items.append(entry)
         self.item_names = [entry[2:].split('|')[0] for entry in self.items if entry[0] == 'I']
-
-    def add_recipe(self, entry):
-        self.recipes.append(entry)
 
     def edit_item(self, old_name, entry):
         self.items[self.item_names.index(old_name)] = entry
@@ -48,6 +39,27 @@ class Backend:
 
     def delete_item(self, name):
         self.items.remove(self.item_names.index(name))
+
+    def get_recipe_list(self):
+        return self.recipes
+
+    def add_recipe(self, entry):
+        self.recipes.append(entry)
+        self.recipe_names = [entry[2:].split('|')[0] for entry in self.recipes if entry[0] == 'I']
+
+    def edit_recipe(self, old_name, entry):
+        self.recipes[self.recipe_names.index(old_name)] = entry
+        self.recipe_names = [entry[2:].split('|')[0] for entry in self.recipes if entry[0] == 'I']
+
+    def delete_recipe(self, name):
+        self.recipes.remove(self.recipe_names.index(name))
+
+    def generate_list(self, user_list):
+        final_list = []
+
+        for i in range(len(user_list)):
+            if user_list[i] == self.item_names:
+                final_list.append(f"{self.items[i]}")
 
 class Frontend:
     def __init__(self, backend, root=tk.Tk()):
@@ -89,14 +101,29 @@ class Frontend:
             for row in range(3):
                 item_frame.rowconfigure(row, weight=1)
         
-        current_item_list = tk.Listbox(item_frame, listvariable=self.backend.get_item_list())
-        current_item_list.grid(column=0, row=0, rowspan=3)
+        item_list = tk.Listbox(item_frame, listvariable=self.backend.get_item_list())
+        item_list.grid(column=0, row=0, rowspan=3)
         add_item_btn = tk.Button(item_frame, text="Add Item", command=lambda: backend.add_item(""))
         add_item_btn.grid(column=1, row=0)
         edit_item_btn = tk.Button(item_frame, text="Edit Item", command=lambda: backend.edit_item(""))
         edit_item_btn.grid(column=1, row=1)
         delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: backend.delete_item(""))
         delete_item_btn.grid(column=1, row=2)
+
+            # Recipe Frame
+        for col in range(2):
+            recipe_frame.columnconfigure(col, weight=1)
+            for row in range(3):
+                recipe_frame.rowconfigure(row, weight=1)
+
+        recipe_list = tk.Listbox(recipe_frame, listvariable=self.backend.get_recipe_list())
+        recipe_list.grid(column=0, row=0, rowspan=3)
+        add_recipe_btn = tk.Button(recipe_frame, text="Add Recipe", command=lambda: backend.add_recipe(""))
+        add_recipe_btn.grid(column=1, row=0)
+        edit_recipe_btn = tk.Button(recipe_frame, text="Edit Recipe", command=lambda: backend.edit_recipe(""))
+        edit_recipe_btn.grid(column=1, row=1)
+        delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: backend.delete_recipe(""))
+        delete_recipe_btn.grid(column=1, row=2)
 
         root.mainloop()
 

@@ -153,8 +153,10 @@ class Frontend:
         self.jordan_aisle_etr.grid(column=1, row=5)
         
                 # Add Item Button
-        add_item_btn = tk.Button(item_frame, text="Add Item", command=lambda: (self.backend.add_item(
-            f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"),
+        add_item_btn = tk.Button(item_frame, text="Add Item", command=lambda: (
+            self.backend.add_item(
+                f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"
+            ),
             self.update_lists()))
         add_item_btn.grid(column=1, row=0)
         
@@ -168,10 +170,16 @@ class Frontend:
             for row in range(3):
                 recipe_frame.rowconfigure(row, weight=1)
 
+                # Recipe Listbox
         self.recipe_lbox = tk.Listbox(recipe_frame, listvariable=self.backend.get_recipe_lists())
         self.recipe_lbox.grid(column=0, row=0, rowspan=2)
+        self.recipe_lbox.bind('<<ListboxSelect>>', self.select_item)
+
+                # Add Recipe Button
         add_recipe_btn = tk.Button(recipe_frame, text="Add Recipe", command=lambda: (backend.add_recipe(""), self.update_lists))
         add_recipe_btn.grid(column=1, row=0)
+        
+                # Delete Recipe Button
         delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: (backend.delete_recipe(""), self.update_lists))
         delete_recipe_btn.grid(column=1, row=1)
 
@@ -194,6 +202,12 @@ class Frontend:
         self.set_text(self.college_aisle_etr, self.backend.get_item_lists("college")[index])
         self.set_text(self.grandparents_aisle_etr, self.backend.get_item_lists("grandparents")[index])
         self.set_text(self.jordan_aisle_etr, self.backend.get_item_lists("jordan")[index])
+
+    def select_recipe(self, event):
+        index = int(self.item_lbox.curselection()[0])
+        self.set_text(self.recipe_name_etr, self.backend.get_recipe_lists("name")[index])
+        index = int(self.item_lbox.curselection()[0])
+        self.set_text(self.rec, self.backend.get_item_lists("name")[index])
 
     def set_text(self, entry, text):
         entry.delete(0, tk.END)

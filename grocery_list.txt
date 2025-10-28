@@ -1,14 +1,2 @@
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
-I:Item B|A2|A3|A4
+I:A|B|C|D
+R:Recipe A|Item A,Item B

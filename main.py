@@ -123,24 +123,26 @@ class Frontend:
         self.item_lbox.grid(column=0, row=0, rowspan=2)
         add_item_btn = tk.Button(item_frame, text="Add Item", command=lambda: backend.add_item(""))
         add_item_btn.grid(column=1, row=0)
-        delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: backend.delete_item(""))
+        delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: self.backend.delete_item())
         delete_item_btn.grid(column=1, row=1)
         item_name_lbl = tk.Label(item_frame, text="Item Name:")
         item_name_lbl.grid(column=0, row=2)
-        item_name_etr = tk.Entry(item_frame)
-        item_name_etr.grid(column=1, row=2)
+        self.item_name_etr = tk.Entry(item_frame)
+        self.item_name_etr.grid(column=1, row=2)
         college_aisle_lbl = tk.Label(item_frame, text="College Aisle:")
         college_aisle_lbl.grid(column=0, row=3)
-        college_aisle_etr = tk.Entry(item_frame)
-        college_aisle_etr.grid(column=1, row=3)
+        self.college_aisle_etr = tk.Entry(item_frame)
+        self.college_aisle_etr.grid(column=1, row=3)
         grandparents_aisle_lbl = tk.Label(item_frame, text="Grandparents Aisle:")
         grandparents_aisle_lbl.grid(column=0, row=4)    
-        grandparents_aisle_etr = tk.Entry(item_frame)
-        grandparents_aisle_etr.grid(column=1, row=4)
+        self.grandparents_aisle_etr = tk.Entry(item_frame)
+        self.grandparents_aisle_etr.grid(column=1, row=4)
         jordan_aisle_lbl = tk.Label(item_frame, text="Jordan Aisle:")
         jordan_aisle_lbl.grid(column=0, row=5)
-        jordan_aisle_etr = tk.Entry(item_frame)
-        jordan_aisle_etr.grid(column=1, row=5)
+        self.jordan_aisle_etr = tk.Entry(item_frame)
+        self.jordan_aisle_etr.grid(column=1, row=5)
+
+        self.item_lbox.bind('<<ListboxSelect>>', self.select_item)
 
             # Recipe Frame
         for col in range(2):
@@ -167,6 +169,17 @@ class Frontend:
         self.recipe_lbox.delete(0, tk.END)
         for recipe in self.backend.get_recipe_lists("name"):
             self.recipe_lbox.insert(tk.END, recipe)
+
+    def select_item(self, event):
+        index = int(self.item_lbox.curselection()[0])
+        self.set_text(self.item_name_etr, self.backend.get_item_lists("name")[index])
+        self.set_text(self.college_aisle_etr, self.backend.get_item_lists("college")[index])
+        self.set_text(self.grandparents_aisle_etr, self.backend.get_item_lists("grandparents")[index])
+        self.set_text(self.jordan_aisle_etr, self.backend.get_item_lists("jordan")[index])
+
+    def set_text(self, entry, text):
+        entry.delete(0, tk.END)
+        entry.insert(0, text)
         
 # Main Loop
 def main():

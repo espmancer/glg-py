@@ -66,11 +66,40 @@ class Backend:
         self.recipes.pop(self.get_recipe_lists("name").index(name))
 
     def generate_list(self, user_list):
+        user_list = user_list.split('\n')
         final_list = []
 
-        for i in range(len(user_list)):
-            if user_list[i] == self.item_names:
-                final_list.append(f"{self.items[i]}")
+        # User List will look something like this: [Item A, Recipe A, Item B]
+        # Split the recipes into their respective items
+        # Remove the recipes and add the split recipes to the user list
+        # Get aisle for selected location for each item
+        # Format each aisle to each item (- [ ] ({aisle}) {item}) 
+
+        for entry in user_list:
+            print(f"Searching for {entry} from {user_list}...")
+
+            try:
+                self.get_item_lists("name").index(entry)  
+            except ValueError:
+                try:
+                    self.get_recipe_lists("name").index(entry)
+                except ValueError:
+                    print(f"Entry '{entry}' not found!")
+                else:
+                    for items in self.get_recipe_lists("items"):
+                        for item in items.split(','):
+                            entry = f"- [ ] ({self.get_item_lists('college')[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
+                            final_list.append(entry)
+            else:
+                entry = f"- [ ] ({self.get_item_lists('college')[self.get_item_lists('name').index(entry)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(entry)]}"
+                final_list.append(entry)
+        
+        # elif self.recipes.index(user_list[0]) != ValueError:
+        #     final_list.append(self.get_recipe_lists("items")[self.recipes.index(user_list[0])])
+        # else:
+        #     print("Entry not found!")
+
+        print(final_list)
 
 class Frontend:
     def __init__(self, backend, root=tk.Tk()):
@@ -108,7 +137,7 @@ class Frontend:
         user_list.grid(column=0, row=0, sticky="nsew", padx=5, pady=5)
 
             # Generate List Button
-        generate_list_btn = tk.Button(list_frame, text="Generate List", command=lambda: self.backend.generate_list(user_list.get("1.0", "end-1c").split('\n\n')))
+        generate_list_btn = tk.Button(list_frame, text="Generate List", command=lambda: self.backend.generate_list(user_list.get("1.0", "end-1c")))
         generate_list_btn.grid(column=1, row=0, sticky="nsew", padx=5, pady=5)
 
             # Item Frame

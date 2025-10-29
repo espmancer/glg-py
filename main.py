@@ -1,6 +1,6 @@
 # NOTE: Temporary one-file version of the code until I can figure out how to refactor it. 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 class Backend:
     # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
@@ -13,9 +13,11 @@ class Backend:
         except FileExistsError:
             with open(self.filename, "r", encoding="utf-8") as f:   
                 self.raw_list = f.read().splitlines()
+        
         self.items = [entry for entry in self.raw_list if entry.startswith("I:")]
         self.recipes = [entry for entry in self.raw_list if entry.startswith("R:")]
         self.locations = ["College", "Grandparents", "Jordan"]
+        self.current_location = self.locations[1].lower()
            
     def close(self, root):
         print(f"Closing!\nItems:{self.get_item_lists('name')}\nRecipes:{self.get_recipe_lists('name')}")
@@ -45,6 +47,10 @@ class Backend:
     def add_item(self, entry):
         self.items.append(entry)
 
+    def edit_item(self, index, entry):
+        self.delete_item(self.get_item_lists("name")[index])
+        self.add_item(entry)
+
     def delete_item(self, name):
         self.items.pop(self.get_item_lists("name").index(name))
 
@@ -60,7 +66,13 @@ class Backend:
             return recipe_items
         
     def add_recipe(self, entry):
-        self.recipes.append(entry)
+        for item in entry.split('|')[1].split(','):
+            try:
+                self.get_item_lists("name").index(item)
+            except ValueError:
+                messagebox.showerror(f"{item} missing!", f"{item} does not exist. Please add and configure {item} first.")
+            else:
+                self.recipes.append(entry)
 
     def delete_recipe(self, name):
         self.recipes.pop(self.get_recipe_lists("name").index(name))
@@ -84,22 +96,18 @@ class Backend:
                 try:
                     self.get_recipe_lists("name").index(entry)
                 except ValueError:
-                    print(f"Entry '{entry}' not found!")
+                    final_list.append(f"Entry '{entry}' not found!")
                 else:
                     for items in self.get_recipe_lists("items"):
                         for item in items.split(','):
-                            entry = f"- [ ] ({self.get_item_lists('college')[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
+                            entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
                             final_list.append(entry)
             else:
-                entry = f"- [ ] ({self.get_item_lists('college')[self.get_item_lists('name').index(entry)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(entry)]}"
+                entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(entry)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(entry)]}"
                 final_list.append(entry)
-        
-        # elif self.recipes.index(user_list[0]) != ValueError:
-        #     final_list.append(self.get_recipe_lists("items")[self.recipes.index(user_list[0])])
-        # else:
-        #     print("Entry not found!")
 
-        print(final_list)
+            for item in final_list:
+                print(item)
 
 class Frontend:
     def __init__(self, backend, root=tk.Tk()):
@@ -176,16 +184,23 @@ class Frontend:
         self.jordan_aisle_etr.grid(column=1, row=5)
         
                 # Add Item Button
-        add_item_btn = tk.Button(item_frame, text="Add Item", command=lambda: (
+        add_item_btn = tk.Button(item_frame, text="Save New Item", command=lambda: (
             self.backend.add_item(
                 f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"
             ),
             self.update_lists()))
         add_item_btn.grid(column=1, row=0)
+
+                # Edit Item Button
+        edit_item_btn = tk.Button(item_frame, text="Save Item", command=lambda: (self.backend.edit_item(
+            int(self.item_lbox.curselection()[0]),
+            f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"),
+            self.update_lists()))
+        edit_item_btn.grid(column=1, row=1)
         
                 # Delete Item Button
         delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: (self.backend.delete_item(self.item_name_etr.get()), self.update_lists()))
-        delete_item_btn.grid(column=1, row=1)
+        delete_item_btn.grid(column=1, row=2)
 
             # Recipe Frame
         for col in range(2):
@@ -214,6 +229,7 @@ class Frontend:
 
                 # Add Recipe Button
         newline = '\n'
+
         add_recipe_btn = tk.Button(recipe_frame, text="Add Recipe", command=lambda: (self.backend.add_recipe(
             f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"
             ), self.update_lists()))
@@ -237,11 +253,20 @@ class Frontend:
             self.recipe_lbox.insert(tk.END, recipe)
 
     def select_item(self, event):
-        index = int(self.item_lbox.curselection()[0])
-        self.set_text(self.item_name_etr, self.backend.get_item_lists("name")[index])
-        self.set_text(self.college_aisle_etr, self.backend.get_item_lists("college")[index])
-        self.set_text(self.grandparents_aisle_etr, self.backend.get_item_lists("grandparents")[index])
-        self.set_text(self.jordan_aisle_etr, self.backend.get_item_lists("jordan")[index])
+        last_index = 0
+        index = last_index
+        
+        try:
+            index = int(self.item_lbox.curselection()[0])
+            last_index = index
+        except IndexError:
+            index = last_index
+            self.item_lbox.selection_set(index)
+        else:
+            self.set_text(self.item_name_etr, self.backend.get_item_lists("name")[index])
+            self.set_text(self.college_aisle_etr, self.backend.get_item_lists("college")[index])
+            self.set_text(self.grandparents_aisle_etr, self.backend.get_item_lists("grandparents")[index])
+            self.set_text(self.jordan_aisle_etr, self.backend.get_item_lists("jordan")[index])
 
     def select_recipe(self, event):
         index = int(self.recipe_lbox.curselection()[0])

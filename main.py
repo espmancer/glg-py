@@ -1,6 +1,7 @@
 # NOTE: Temporary one-file version of the code until I can figure out how to refactor it. 
 import tkinter as tk
 from tkinter import ttk, messagebox
+from pyperclip import copy
 
 class Backend:
     # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
@@ -92,7 +93,7 @@ class Backend:
         # Format each aisle to each item (- [ ] ({aisle}) {item}) 
 
         for entry in user_list:
-            print(f"Searching for {entry} from {user_list}...")
+            print(f"Searching for {entry} with location '{self.current_location}'...")
 
             try:
                 self.get_item_lists("name").index(entry)  
@@ -104,17 +105,19 @@ class Backend:
                 else:
                     for items in self.get_recipe_lists("items"):
                         for item in items.split(','):
+                            print(f"Found {item}!")
                             entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
                             self.final_list.append(entry)
             else:
+                print(f"Found {entry}!")
                 entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(entry)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(entry)]}"
                 self.final_list.append(entry)
 
-            for item in self.final_list:
-                print(item)
+            copy('\n'.join(self.final_list))
 
     def get_locations(self):
         return self.locations
+    
     def set_location(self, location):
         self.current_location = location
     
@@ -155,7 +158,9 @@ class Frontend:
         user_list.grid(column=0, row=0, sticky="nsew", padx=5, pady=5)
 
             # Generate List Button
-        generate_list_btn = tk.Button(list_frame, text="Generate List", command=lambda: self.backend.generate_list(user_list.get("1.0", "end-1c")))
+        generate_list_btn = tk.Button(list_frame, text="Generate List", command=lambda: (
+            messagebox.showinfo("Notice", "List has been copied to clipboard."),
+            self.backend.generate_list(user_list.get("1.0", "end-1c"))))
         generate_list_btn.grid(column=1, row=0, sticky="nsew", padx=5, pady=5)
 
             # Item Frame

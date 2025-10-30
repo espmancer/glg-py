@@ -14,10 +14,11 @@ class Backend:
             with open(self.filename, "r", encoding="utf-8") as f:   
                 self.raw_list = f.read().splitlines()
         
+        self.final_list = []
         self.items = [entry for entry in self.raw_list if entry.startswith("I:")]
         self.recipes = [entry for entry in self.raw_list if entry.startswith("R:")]
-        self.locations = ["College", "Grandparents", "Jordan"]
-        self.current_location = self.locations[1].lower()
+        self.locations = ["college", "grandparents", "jordan"]
+        self.current_location = self.locations[1]
            
     def close(self, root):
         print(f"Closing!\nItems:{self.get_item_lists('name')}\nRecipes:{self.get_recipe_lists('name')}")
@@ -74,12 +75,15 @@ class Backend:
             else:
                 self.recipes.append(entry)
 
+    def edit_recipe(self, index, entry):
+        self.delete_recipe(self.get_recipe_lists("name")[index])
+        self.add_recipe(entry)
+
     def delete_recipe(self, name):
         self.recipes.pop(self.get_recipe_lists("name").index(name))
 
     def generate_list(self, user_list):
         user_list = user_list.split('\n')
-        final_list = []
 
         # User List will look something like this: [Item A, Recipe A, Item B]
         # Split the recipes into their respective items
@@ -96,28 +100,32 @@ class Backend:
                 try:
                     self.get_recipe_lists("name").index(entry)
                 except ValueError:
-                    final_list.append(f"Entry '{entry}' not found!")
+                    self.final_list.append(f"Entry '{entry}' not found!")
                 else:
                     for items in self.get_recipe_lists("items"):
                         for item in items.split(','):
                             entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
-                            final_list.append(entry)
+                            self.final_list.append(entry)
             else:
                 entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(entry)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(entry)]}"
-                final_list.append(entry)
+                self.final_list.append(entry)
 
-            for item in final_list:
+            for item in self.final_list:
                 print(item)
 
+    def get_locations(self):
+        return self.locations
+    def set_location(self, location):
+        self.current_location = location
+    
 class Frontend:
     def __init__(self, backend, root=tk.Tk()):
         self.backend = backend
         self.root = root
 
         root.title("GLG")
-        root.minsize(200, 200)
-        root.maxsize(500, 500)
-        root.geometry("300x300+50+50")
+        root.minsize(300, 350)
+        root.geometry("300x350+50+50")
         root.protocol("WM_DELETE_WINDOW", lambda: self.backend.close(root))
 
         # Main Menu (Notebook)
@@ -129,11 +137,13 @@ class Frontend:
         list_frame = tk.Frame(tab_ntbk)
         item_frame = tk.Frame(tab_ntbk)
         recipe_frame = tk.Frame(tab_ntbk)
+        location_frame = tk.Frame(tab_ntbk)
 
             # Add Frames
         tab_ntbk.add(list_frame, text="List")
         tab_ntbk.add(item_frame, text="Items")
         tab_ntbk.add(recipe_frame, text="Recipes")
+        tab_ntbk.add(location_frame, text="Locations")
 
         # List Frame layout
         list_frame.columnconfigure(0, weight=1)
@@ -151,7 +161,7 @@ class Frontend:
             # Item Frame
         for col in range(2):
             item_frame.columnconfigure(col, weight=1)
-            for row in range(5):
+            for row in range(6):
                 item_frame.rowconfigure(row, weight=1)
         
                 # Item Listbox
@@ -161,27 +171,27 @@ class Frontend:
         
                 # Item Name
         item_name_lbl = tk.Label(item_frame, text="Item Name:")
-        item_name_lbl.grid(column=0, row=2)
+        item_name_lbl.grid(column=0, row=3)
         self.item_name_etr = tk.Entry(item_frame)
-        self.item_name_etr.grid(column=1, row=2)
+        self.item_name_etr.grid(column=1, row=3)
         
                 # College Aisle
         college_aisle_lbl = tk.Label(item_frame, text="College Aisle:")
-        college_aisle_lbl.grid(column=0, row=3)
+        college_aisle_lbl.grid(column=0, row=4)
         self.college_aisle_etr = tk.Entry(item_frame)
-        self.college_aisle_etr.grid(column=1, row=3)
+        self.college_aisle_etr.grid(column=1, row=4)
         
                 # Grandparents Aisle
         grandparents_aisle_lbl = tk.Label(item_frame, text="Grandparents Aisle:")
-        grandparents_aisle_lbl.grid(column=0, row=4)    
+        grandparents_aisle_lbl.grid(column=0, row=5)    
         self.grandparents_aisle_etr = tk.Entry(item_frame)
-        self.grandparents_aisle_etr.grid(column=1, row=4)
+        self.grandparents_aisle_etr.grid(column=1, row=5)
         
                 # Jordan Aisle
         jordan_aisle_lbl = tk.Label(item_frame, text="Jordan Aisle:")
-        jordan_aisle_lbl.grid(column=0, row=5)
+        jordan_aisle_lbl.grid(column=0, row=6)
         self.jordan_aisle_etr = tk.Entry(item_frame)
-        self.jordan_aisle_etr.grid(column=1, row=5)
+        self.jordan_aisle_etr.grid(column=1, row=6)
         
                 # Add Item Button
         add_item_btn = tk.Button(item_frame, text="Save New Item", command=lambda: (
@@ -214,7 +224,6 @@ class Frontend:
         self.recipe_lbox.grid(column=0, row=0, rowspan=2)
         self.recipe_lbox.bind('<<ListboxSelect>>', self.select_recipe)
 
-
                 # Recipe Name Entry
         recipe_name_lbl = tk.Label(recipe_frame, text="Recipe Name")
         recipe_name_lbl.grid(column=0, row=2)
@@ -229,7 +238,6 @@ class Frontend:
 
                 # Add Recipe Button
         newline = '\n'
-
         add_recipe_btn = tk.Button(recipe_frame, text="Add Recipe", command=lambda: (self.backend.add_recipe(
             f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"
             ), self.update_lists()))
@@ -238,6 +246,18 @@ class Frontend:
                 # Delete Recipe Button
         delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: (self.backend.delete_recipe(self.recipe_name_etr.get()), self.update_lists()))
         delete_recipe_btn.grid(column=1, row=1)
+
+            # Locations Frame
+        location_var = tk.StringVar(value=self.backend.current_location)
+
+        # Create the OptionMenu
+        location_mnu = tk.OptionMenu(
+            location_frame,
+            location_var,
+            *self.backend.get_locations(),
+            command=lambda location: self.backend.set_location(location)
+        )
+        location_mnu.pack()
 
         root.mainloop()
 

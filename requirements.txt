@@ -1,0 +1,2 @@
+pyperclip==1.11.0
+tk-tools==0.17.0

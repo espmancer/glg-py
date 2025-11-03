@@ -2,7 +2,7 @@ from pyperclip import copy
 
 class Backend:
     # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
-    def __init__(self, filename="grocery_list.txt"):
+    def __init__(self, filename="../grocery_list.txt"):
         self.filename = filename
 
         try:
@@ -69,7 +69,7 @@ class Backend:
             try:
                 self.get_item_lists("name").index(item)
             except ValueError:
-                messagebox.showerror(f"{item} missing!", f"{item} does not exist. Please add and configure {item} first.")
+                return f"{item} missing!", f"{item} does not exist. Please add and configure {item} first."
             else:
                 self.recipes.append(entry)
 
@@ -81,6 +81,7 @@ class Backend:
         self.recipes.pop(self.get_recipe_lists("name").index(name))
 
     def generate_list(self, user_list):
+        self.final_list = []
         user_list = user_list.split('\n')
 
         # User List will look something like this: [Item A, Recipe A, Item B]

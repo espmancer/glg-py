@@ -123,14 +123,21 @@ class Frontend:
 
                 # Add Recipe Button
         newline = '\n'
-        add_recipe_btn = tk.Button(recipe_frame, text="Add Recipe", command=lambda: (self.backend.add_recipe(
+        add_recipe_btn = tk.Button(recipe_frame, text="Save New Recipe", command=lambda: (self.backend.add_recipe(
             f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"
             ), self.update_lists()))
         add_recipe_btn.grid(column=1, row=0)
+
+                # Edit Recipe Button
+        edit_recipe_btn = tk.Button(recipe_frame, text="Save Recipe", command=lambda: (self.backend.recipe_item(
+            int(self.recipe_lbox.curselection()[0]),
+            f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"),
+            self.update_lists()))
+        edit_recipe_btn.grid(column=1, row=1)
         
                 # Delete Recipe Button
         delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: (self.backend.delete_recipe(self.recipe_name_etr.get()), self.update_lists()))
-        delete_recipe_btn.grid(column=1, row=1)
+        delete_recipe_btn.grid(column=1, row=2)
 
             # Locations Frame
         location_var = tk.StringVar(value=self.backend.current_location)
@@ -174,10 +181,18 @@ class Frontend:
             self.set_text(self.jordan_aisle_etr, self.backend.get_item_lists("jordan")[index])
 
     def select_recipe(self, event):
-        index = int(self.recipe_lbox.curselection()[0])
-        self.set_text(self.recipe_name_etr, self.backend.get_recipe_lists("name")[index])
-        newline_list = self.backend.get_recipe_lists("items")[index].replace(',','\n')
-        self.set_text(self.recipe_items_list, newline_list)
+        last_index = 0
+        index = last_index
+        
+        try:
+            index = int(self.item_lbox.curselection()[0])
+            last_index = index
+        except IndexError:
+            index = last_index
+            self.item_lbox.selection_set(index)
+        else:
+            self.set_text(self.recipe_name_etr, self.backend.get_recipe_lists("name")[index])
+            self.set_text(self.recipe_items_list, self.backend.get_recipe_lists("items")[index])
 
     def set_text(self, entry, text):
         index = "1.0" if isinstance(entry, tk.Text) else 0 

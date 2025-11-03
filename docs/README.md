@@ -19,4 +19,8 @@ R:Example Recipe|Item A, Item B
 ## Future Ideas
 - I may try and make this compatible with mobile and remove a computer from the equation altogether. Python has an [Android library](https://pypi.org/project/python-for-android/) that I might be able to use.
 - As mentioned before, locations may be configurable in the future.
+<<<<<<< HEAD
 - Abstract "Configurables" class that items and recipe classes can override
+=======
+- Options to format the final list to a specific app (e.g. To Do, Keep, Obsidian)
+>>>>>>> 0e00ed7 (Add app config idea)

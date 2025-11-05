@@ -44,39 +44,25 @@ class Frontend:
         generate_list_btn.grid(column=1, row=0, sticky="nsew", padx=5, pady=5)
 
             # Item Frame
-        for col in range(2):
-            item_frame.columnconfigure(col, weight=1)
-            for row in range(6):
-                item_frame.rowconfigure(row, weight=1)
-        
                 # Item Listbox
         self.item_lbox = tk.Listbox(item_frame, listvariable=self.backend.get_item_lists())
-        self.item_lbox.grid(column=0, row=0, rowspan=2)
         self.item_lbox.bind('<<ListboxSelect>>', self.select_item)
         
                 # Item Name
         item_name_lbl = tk.Label(item_frame, text="Item Name:")
-        item_name_lbl.grid(column=0, row=3)
         self.item_name_etr = tk.Entry(item_frame)
-        self.item_name_etr.grid(column=1, row=3)
         
                 # College Aisle
         college_aisle_lbl = tk.Label(item_frame, text="College Aisle:")
-        college_aisle_lbl.grid(column=0, row=4)
         self.college_aisle_etr = tk.Entry(item_frame)
-        self.college_aisle_etr.grid(column=1, row=4)
         
                 # Grandparents Aisle
-        grandparents_aisle_lbl = tk.Label(item_frame, text="Grandparents Aisle:")
-        grandparents_aisle_lbl.grid(column=0, row=5)    
+        grandparents_aisle_lbl = tk.Label(item_frame, text="Grandparents Aisle:")   
         self.grandparents_aisle_etr = tk.Entry(item_frame)
-        self.grandparents_aisle_etr.grid(column=1, row=5)
         
                 # Jordan Aisle
         jordan_aisle_lbl = tk.Label(item_frame, text="Jordan Aisle:")
-        jordan_aisle_lbl.grid(column=0, row=6)
         self.jordan_aisle_etr = tk.Entry(item_frame)
-        self.jordan_aisle_etr.grid(column=1, row=6)
         
                 # Add Item Button
         add_item_btn = tk.Button(item_frame, text="Save New Item", command=lambda: (
@@ -84,23 +70,57 @@ class Frontend:
                 f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"
             ),
             self.update_lists()))
-        add_item_btn.grid(column=1, row=0)
 
                 # Edit Item Button
         edit_item_btn = tk.Button(item_frame, text="Save Item", command=lambda: (self.backend.edit_item(
             int(self.item_lbox.curselection()[0]),
             f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"),
             self.update_lists()))
-        edit_item_btn.grid(column=1, row=1)
         
                 # Delete Item Button
         delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: (self.backend.delete_item(self.item_name_etr.get()), self.update_lists()))
-        delete_item_btn.grid(column=1, row=2)
+
+        """
+        |Listbox [0][0]|Item Name Label    [1][0]|Item Name Entry          [1][0]|
+        |      | [0][1]|College Label      [1][1]|College Aisle Entry      [1][1]|
+        |      | [0][2]|Grandparents Label [1][2]|Grandparents Aisle Entry [1][2]|
+        |      | [0][3]|Jordan Label       [1][3]|Jordan Aisle Entry       [1][3]|
+        |Add Item Button                                                 [0-2][4]|
+        |Edit Item Button                                                [0-2][5]|
+        |Delete Item Button                                              [0-2][6]|
+        """
+        for col in range(3):
+            item_frame.columnconfigure(col, weight=1)
+            for row in range(7):
+                item_frame.rowconfigure(row, weight=1)
+        
+        # Item Listbox [Col 0]
+        self.item_lbox.grid(column=0, row=0, rowspan=4)
+        
+        # Labels [Col 1]
+        item_name_lbl.grid(column=1, row=0)
+        grandparents_aisle_lbl.grid(column=1, row=1) 
+        college_aisle_lbl.grid(column=1, row=2)
+        jordan_aisle_lbl.grid(column=1, row=3)
+        
+        # Entries [Col 2]
+        self.item_name_etr.grid(column=2, row=0)
+        self.college_aisle_etr.grid(column=2, row=1)
+        self.grandparents_aisle_etr.grid(column=2, row=2)
+        self.jordan_aisle_etr.grid(column=2, row=3)
+
+        # Buttons [Col 0-2]
+        add_item_btn.grid(column=0, row=4, columnspan=3)
+        edit_item_btn.grid(column=0, row=5, columnspan=3)
+        delete_item_btn.grid(column=0, row=6, columnspan=3)
 
             # Recipe Frame
+        """
+        
+        """
         for col in range(2):
             recipe_frame.columnconfigure(col, weight=1)
-            for row in range(3):
+            for row in range(4):
                 recipe_frame.rowconfigure(row, weight=0)
 
         recipe_frame.rowconfigure(3, weight=3)
@@ -113,7 +133,7 @@ class Frontend:
         recipe_name_lbl = tk.Label(recipe_frame, text="Recipe Name")
         recipe_name_lbl.grid(column=0, row=2)
         self.recipe_name_etr = tk.Entry(recipe_frame)
-        self.recipe_name_etr.grid(column=1, row=2)
+        self.recipe_name_etr.grid(column=1, row=3)
 
                 # Recipe Items List (Text Widget)
         recipe_items_lbl = tk.Label(recipe_frame, text="Recipe Items")

@@ -1,7 +1,7 @@
+all: init run
+
 init:
-    pip install -r requirements.txt
+		pip install -r requirements.txt --break-system-packages
 
-test:
-    py.test tests
-
-.PHONY: init test
+run:
+		python3 sample/main.py

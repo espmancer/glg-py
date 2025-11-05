@@ -12,6 +12,8 @@ class Backend:
             with open(self.filename, "r", encoding="utf-8") as f:   
                 self.raw_list = f.read().splitlines()
         
+        print("Raw List:", self.raw_list)
+
         self.final_list = []
         self.items = [entry for entry in self.raw_list if entry.startswith("I:")]
         self.recipes = [entry for entry in self.raw_list if entry.startswith("R:")]

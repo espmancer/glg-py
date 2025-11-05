@@ -6,9 +6,11 @@ class Frontend:
         self.backend = backend
         self.root = root
 
+        WIDTH = 500
+        HEIGHT = 350
+
         root.title("GLG")
-        root.minsize(300, 350)
-        root.geometry("300x350+50+50")
+        root.geometry(f"{WIDTH}x{HEIGHT}")
         root.protocol("WM_DELETE_WINDOW", lambda: self.backend.close(root))
 
         # Main Menu (Notebook)
@@ -115,49 +117,64 @@ class Frontend:
         delete_item_btn.grid(column=0, row=6, columnspan=3)
 
             # Recipe Frame
-        """
-        
-        """
-        for col in range(2):
-            recipe_frame.columnconfigure(col, weight=1)
-            for row in range(4):
-                recipe_frame.rowconfigure(row, weight=0)
-
-        recipe_frame.rowconfigure(3, weight=3)
                 # Recipe Listbox
         self.recipe_lbox = tk.Listbox(recipe_frame, listvariable=self.backend.get_recipe_lists())
-        self.recipe_lbox.grid(column=0, row=0, rowspan=2)
         self.recipe_lbox.bind('<<ListboxSelect>>', self.select_recipe)
 
                 # Recipe Name Entry
         recipe_name_lbl = tk.Label(recipe_frame, text="Recipe Name")
-        recipe_name_lbl.grid(column=0, row=2)
         self.recipe_name_etr = tk.Entry(recipe_frame)
-        self.recipe_name_etr.grid(column=1, row=3)
-
+        
                 # Recipe Items List (Text Widget)
         recipe_items_lbl = tk.Label(recipe_frame, text="Recipe Items")
-        recipe_items_lbl.grid(column=0, row=3)
         self.recipe_items_list = tk.Text(recipe_frame, height=5, width=10)
-        self.recipe_items_list.grid(column=1, row=3)
 
                 # Add Recipe Button
         newline = '\n'
         add_recipe_btn = tk.Button(recipe_frame, text="Save New Recipe", command=lambda: (self.backend.add_recipe(
             f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"
             ), self.update_lists()))
-        add_recipe_btn.grid(column=1, row=0)
 
                 # Edit Recipe Button
         edit_recipe_btn = tk.Button(recipe_frame, text="Save Recipe", command=lambda: (self.backend.recipe_item(
             int(self.recipe_lbox.curselection()[0]),
             f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"),
             self.update_lists()))
-        edit_recipe_btn.grid(column=1, row=1)
         
                 # Delete Recipe Button
         delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: (self.backend.delete_recipe(self.recipe_name_etr.get()), self.update_lists()))
-        delete_recipe_btn.grid(column=1, row=2)
+
+        """
+        |Listbox [0][0]|Recipe Name Label       [1][0]|Recipe Name Entry            [1][0]|
+        |      | [0][1]|Recipe Items Label      [1][1]|Recipe Items Entry           [1][1]|
+        |      | [0][2]|                              |                                |  |
+        |      | [0][3]|                              |                                |  |
+        |Add Recipe Button                                                        [0-2][4]|
+        |Edit Recipe Button                                                       [0-2][5]|
+        |Delete Recipe Button                                                     [0-2][6]|
+        """
+        for col in range(2):
+            recipe_frame.columnconfigure(col, weight=1)
+            for row in range(7):
+                recipe_frame.rowconfigure(row, weight=0)
+
+        # recipe_frame.rowconfigure(3, weight=3)
+
+        # Item Listbox [Col 0]
+        self.recipe_lbox.grid(column=0, row=0, rowspan=3)
+
+        # Labels [Col 1]
+        recipe_name_lbl.grid(column=1, row=0)
+        recipe_items_lbl.grid(column=1, row=1)
+        
+        # Entries [Col 2]
+        self.recipe_name_etr.grid(column=2, row=0)
+        self.recipe_items_list.grid(column=2, row=1, rowspan=2)
+        
+        # Buttons [Col 0-2]
+        add_recipe_btn.grid(column=0, row=4, columnspan=2)
+        edit_recipe_btn.grid(column=0, row=5, columnspan=2)
+        delete_recipe_btn.grid(column=0, row=6, columnspan=2)
 
             # Locations Frame
         location_var = tk.StringVar(value=self.backend.current_location)

@@ -67,20 +67,25 @@ class Frontend:
         self.jordan_aisle_etr = tk.Entry(item_frame)
         
                 # Add Item Button
-        add_item_btn = tk.Button(item_frame, text="Save New Item", command=lambda: (
-            self.backend.add_item(
-                f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"
-            ),
-            self.update_lists()))
+        add_item_btn = tk.Button(item_frame, text="Save New Item", command=lambda: self.add_item_command())
 
                 # Edit Item Button
-        edit_item_btn = tk.Button(item_frame, text="Save Item", command=lambda: (self.backend.edit_item(
-            int(self.item_lbox.curselection()[0]),
-            f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"),
-            self.update_lists()))
+        edit_item_btn = tk.Button(item_frame, text="Save Item", command=lambda: 
+            (
+                self.backend.edit_item(
+                    int(self.item_lbox.curselection()[0]),
+                    f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"),
+                self.update_lists()
+            ))
         
                 # Delete Item Button
-        delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: (self.backend.delete_item(self.item_name_etr.get()), self.update_lists()))
+        delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: 
+            (
+                self.backend.delete_item(
+                    self.item_name_etr.get()),
+                self.update_lists(),
+                self.clear_entries(item_entries)
+            ))
 
         """
         |Listbox [0][0]|Item Name Label    [1][0]|Item Name Entry          [1][0]|
@@ -130,19 +135,25 @@ class Frontend:
         self.recipe_items_list = tk.Text(recipe_frame, height=5, width=10)
 
                 # Add Recipe Button
-        newline = '\n'
-        add_recipe_btn = tk.Button(recipe_frame, text="Save New Recipe", command=lambda: (self.backend.add_recipe(
-            f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"
-            ), self.update_lists()))
+        add_recipe_btn = tk.Button(recipe_frame, text="Save New Recipe", command=lambda: self.add_recipe_command())
 
                 # Edit Recipe Button
-        edit_recipe_btn = tk.Button(recipe_frame, text="Save Recipe", command=lambda: (self.backend.recipe_item(
-            int(self.recipe_lbox.curselection()[0]),
-            f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"),
-            self.update_lists()))
+        edit_recipe_btn = tk.Button(recipe_frame, text="Save Recipe", command=lambda: 
+            (
+                self.backend.recipe_item(
+                    int(self.recipe_lbox.curselection()[0]),
+                    f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"),
+                self.update_lists()
+            ))
         
                 # Delete Recipe Button
-        delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: (self.backend.delete_recipe(self.recipe_name_etr.get()), self.update_lists()))
+        delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: 
+            (
+                self.backend.delete_recipe(
+                    self.recipe_name_etr.get()),
+                self.update_lists()
+                # self.clear_entries(recipe_entries)
+            ))
 
         """
         |Listbox [0][0]|Recipe Name Label       [1][0]|Recipe Name Entry            [1][0]|
@@ -201,6 +212,19 @@ class Frontend:
         for recipe in self.backend.get_recipe_lists("name"):
             self.recipe_lbox.insert(tk.END, recipe)
 
+    def clear_entries(self, entries):
+        for entry in entries:
+            self.set_text(entry, "")
+
+    def add_item_command(self):
+        item_entries = [self.item_name_etr, self.college_aisle_etr, self.grandparents_aisle_etr,self.jordan_aisle_etr]
+        
+        self.backend.add_item(
+            f"I:{item_entries[0].get()}|{item_entries[1].get()}|{item_entries[2].get()}|{item_entries[3].get()}"
+        )
+        self.update_lists()
+        self.clear_entries(item_entries)
+
     def select_item(self, event):
         last_index = 0
         index = last_index
@@ -216,6 +240,15 @@ class Frontend:
             self.set_text(self.college_aisle_etr, self.backend.get_item_lists("college")[index])
             self.set_text(self.grandparents_aisle_etr, self.backend.get_item_lists("grandparents")[index])
             self.set_text(self.jordan_aisle_etr, self.backend.get_item_lists("jordan")[index])
+
+    def add_recipe_command(self):
+        recipe_entries = [self.recipe_name_etr, self.recipe_items_list]
+        newline = '\n'
+
+        self.backend.add_recipe(
+            f"R:{recipe_entries[0].get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}")
+        self.update_lists()
+        self.clear_entries(recipe_entries)
 
     def select_recipe(self, event):
         last_index = 0

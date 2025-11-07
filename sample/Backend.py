@@ -12,7 +12,10 @@ class Backend:
             with open(self.filename, "r", encoding="utf-8") as f:   
                 self.raw_list = f.read().splitlines()
         
-        print("Raw List:", self.raw_list)
+        # For Debug
+        print("--Raw List--")
+        for entry in self.raw_list:
+            print(entry)
 
         self.final_list = []
         self.items = [entry for entry in self.raw_list if entry.startswith("I:")]
@@ -67,13 +70,14 @@ class Backend:
             return recipe_items
         
     def add_recipe(self, entry):
-        for item in entry.split('|')[1].split(','):
-            try:
-                self.get_item_lists("name").index(item)
-            except ValueError:
-                return f"{item} missing!", f"{item} does not exist. Please add and configure {item} first."
-            else:
-                self.recipes.append(entry)
+        items = entry.split('|')[1].split(',')
+        
+        for item in items:
+            if item not in self.get_item_lists("name"):
+                print(f"{item} missing!", f"{item} does not exist. Please add and configure {item} first.")
+
+        self.recipes.append(entry)
+
 
     def edit_recipe(self, index, entry):
         self.delete_recipe(self.get_recipe_lists("name")[index])

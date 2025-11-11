@@ -2,9 +2,10 @@ from pyperclip import copy
 
 class Backend:
     # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
-    def __init__(self, filename="grocery_list.txt"):
+    def __init__(self, filename="grocery_list.txt", debug=False):
         self.filename = filename
         self.raw_list = []
+        self.debug
 
         try:
             with open(self.filename, "r", encoding="utf-8") as f:   
@@ -12,26 +13,39 @@ class Backend:
         except FileNotFoundError:
             f = open(self.filename, "a+", encoding="utf-8")
             f.write("")
-                
-        
-        # For Debug
-        print("--Raw List--")
-        for entry in self.raw_list:
-            print(entry)
 
         self.final_list = []
         self.items = [entry for entry in self.raw_list if entry.startswith("I:")]
         self.recipes = [entry for entry in self.raw_list if entry.startswith("R:")]
         self.locations = ["college", "grandparents", "jordan"]
-        self.current_location = self.locations[1]
-           
+        self.current_location = self.locations[0]
+
+        if self.debug:
+            self.debug()
+             
     def close(self, root):
-        print(f"Closing!\nItems:{self.get_item_lists('name')}\nRecipes:{self.get_recipe_lists('name')}")
         with open(self.filename, "w", encoding="utf-8") as f:
             f.write("\n".join(self.items + self.recipes))
 
+        if self.debug:
+            self.debug()
+            
         root.destroy()
     
+    def debug(self):
+        list_headers = ["Raw List", "Items", "Recipes", "Locations", "Final List"]
+        all_lists = [self.raw_list, self.items, self.recipes, self.locations, self.final_list]
+        
+        print("Path:", self.filename)
+        print("Current Location:", self.current_location)
+
+        for i in range(len(list_headers)):
+            print(f"--{list_headers[i]}--")
+
+            for element in all_lists[i]:
+                print(element)
+
+        
     # TODO: Make non-hardcoded locations for this function
     def get_item_lists(self, section=None):
         item_names = [entry[2:].split('|')[0] for entry in self.items]

@@ -128,16 +128,17 @@ class Frontend:
 
                 # Recipe Name Entry
         recipe_name_lbl = tk.Label(recipe_frame, text="Recipe Name")
-        self.recipe_name_etr = tk.Entry(recipe_frame)
+        self.recipe_name_etr = tk.Entry(recipe_frame, width=40)
         
                 # Recipe Items List (Text Widget)
         recipe_items_lbl = tk.Label(recipe_frame, text="Recipe Items")
-        self.recipe_items_list = tk.Text(recipe_frame, height=5, width=10)
+        self.recipe_items_list = tk.Text(recipe_frame, height=10, width=25)
 
                 # Add Recipe Button
         add_recipe_btn = tk.Button(recipe_frame, text="Save New Recipe", command=lambda: self.add_recipe_command())
 
                 # Edit Recipe Button
+        newline = '\n'
         edit_recipe_btn = tk.Button(recipe_frame, text="Save Recipe", command=lambda: 
             (
                 self.backend.recipe_item(
@@ -255,14 +256,14 @@ class Frontend:
         index = last_index
         
         try:
-            index = int(self.item_lbox.curselection()[0])
+            index = int(self.recipe_lbox.curselection()[0])
             last_index = index
         except IndexError:
             index = last_index
             self.item_lbox.selection_set(index)
         else:
             self.set_text(self.recipe_name_etr, self.backend.get_recipe_lists("name")[index])
-            self.set_text(self.recipe_items_list, self.backend.get_recipe_lists("items")[index])
+            self.set_text(self.recipe_items_list, self.backend.get_recipe_lists("items")[index].replace(",", "\n"))
 
     def set_text(self, entry, text):
         index = "1.0" if isinstance(entry, tk.Text) else 0 

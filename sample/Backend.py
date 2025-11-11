@@ -2,15 +2,17 @@ from pyperclip import copy
 
 class Backend:
     # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
-    def __init__(self, filename="../grocery_list.txt"):
+    def __init__(self, filename="grocery_list.txt"):
         self.filename = filename
+        self.raw_list = []
 
         try:
-            with open(self.filename, "x", encoding="utf-8") as f:   
-                self.raw_list = ""
-        except FileExistsError:
             with open(self.filename, "r", encoding="utf-8") as f:   
                 self.raw_list = f.read().splitlines()
+        except FileNotFoundError:
+            f = open(self.filename, "a+", encoding="utf-8")
+            f.write("")
+                
         
         # For Debug
         print("--Raw List--")
@@ -25,7 +27,7 @@ class Backend:
            
     def close(self, root):
         print(f"Closing!\nItems:{self.get_item_lists('name')}\nRecipes:{self.get_recipe_lists('name')}")
-        with open(self.filename, "w", encoding="utf-8") as f:
+        with open(self.filename, "a+", encoding="utf-8") as f:
             f.write("\n".join(self.items + self.recipes))
 
         root.destroy()

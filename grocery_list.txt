@@ -1,3 +1,0 @@
-I:Item A|A1|A2|A3
-I:Item B|A3|A2|A3
-R:Recipe A|Item A,Item B

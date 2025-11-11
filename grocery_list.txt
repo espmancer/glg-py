@@ -1,0 +1,89 @@
+I:1 Lb Ground Beef Roll|36A|37A|40A
+I:Alfredo Sauce|5A|13A|10A
+I:Angel Hair|5A|13A|10A
+I:Baked Beans|5A|11A|12A
+I:Baking Tray|J22|H18|H24
+I:Bosco Sticks|29A|3A|3A
+I:Bread|13A|7A|7A
+I:Broccoli Florets|1A|1A|1A
+I:Burgers|36A|38A|40A
+I:Butter Stick|33A|26A|38A
+I:Caesar Dressing|2A|9A|9A
+I:Assorted Candy|3A|2J|14A
+I:Cereal|11A|17A|19A
+I:Cereal Bars|10A|16A|18A
+I:Cheese|35A|37A|39A
+I:Cheez-Its|14A|5J|15A
+I:Chicken Broth|7A|12A|13A
+I:Chicken Noodle Soup|7A|12A|13A
+I:Chili|7A|12A|12A
+I:Party Size Chips|16A|24J|21A
+I:Chopped Onions|1A|1A|1A
+I:Chopped Romaine|1A|1A|1A
+I:Cookies|15A|4J|1AB
+I:Coolant|32N|15L|31I
+I:Corn Dogs|30A|4A|4A
+I:Corn Starch|9A|15A|17A
+I:Croutons|2A|9A|9A
+I:Diced Chicken Breast|36A|3A|3A
+I:Diced Tomato|5A|13A|10A
+I:Eggs|34A|28A|28A
+I:Flour|9A|16A|17A
+I:Frozen Pizza|31A|5A|5A
+I:Frozen Sausage Biscuits|29A|21A|26A
+I:Fruit Snacks|15A|8J|16A
+I:Garlic Powder|8A|15A|17A
+I:Granola Bars|10A|16A|18A
+I:Hi-C Juice Boxes|17A|27A|20A
+I:Hot Dog Buns|13A|7A|7A
+I:Hot Dogs|35A|37A|37A
+I:Ice Cream|28A|2A|2A
+I:Juice|33A|38A|38A
+I:Ketchup|2A|9A|9A
+I:Smoked Sausage|33A|37A|39A
+I:Lunch Meat|35A|37A|39A
+I:Mashed Potatoes|6A|10A|13A
+I:Mayo|2A|9A|9A
+I:Milk|33A|32A|38A
+I:Mini Cinnis|29A|3A|3A
+I:Pants|18D|29D|16D
+I:Black Pepper|8A|17A|17A
+I:Pickle Chips|2A|9A|9A
+I:Pizza Rolls|30A|4A|4A
+I:Pop Tarts|19A|16A|18A
+I:Pots|20J|5H|23H
+I:Powdered Parmesan|5A|13A|10A
+I:Ramen|7A|11A|13A
+I:Ravioli|4A|11A|13A
+I:Salt|8A|17A|17A
+I:Shells n Cheddar|4A|11A|12A
+I:Shredded Cheese|35A|30A|39A
+I:Shredded Lettuce|1A|1A|1A
+I:Soda|25A|24A|1GR
+I:Sour Cream|33A|26A|28A
+I:Spaghetti|5A|13A|10A
+I:Spaghetti Sauce|5A|13A|10A
+I:Stroganoff Kit|4A|13A|11A
+I:Sugar|8A|10A|16A
+I:Meatballs|30A|4A|4A
+I:Taco Seasoning|6A|10A|11A
+I:Toilet Bowl Cleaner|21A|21A|26A
+I:Toilet Brush|21A|21A|26A
+I:Toilet Paper|19A|20A|24A
+I:Tomato Soup|7A|12A|13A
+I:Tortillas|6A|7A|7A
+I:Tuna|7A|12A|12A
+I:Yogurt|33A|36A|28A
+R:Beef Stroganoff and Mashed Potatoes|Stroganoff Kit,1 Lb Ground Beef Roll,Milk,Mashed Potatoes
+R:Broccoli Cheddar Soup|Broccoli Florets,Chopped Onions,Butter Stick,Flour,Salt,Milk,Chicken Broth,Shredded Cheese
+R:Cheeseburgers|Cheese,Burgers
+R:Chili Dogs|Chili,Hot Dogs,Hot Dog Buns,Chopped Onions
+R:Grilled Cheese and Tomato Soup|Bread,Cheese,Tomato Soup
+R:Meatballs and Shells n Cheddar|Meatballs,Spaghetti Sauce,Shells n Cheddar
+R:Smoked Sausage and Baked Beans|Smoked Sausage,Baked Beans
+R:Spaghetti and Meatballs|Spaghetti,Spaghetti Sauce,1 Lb Ground Beef Roll,Meatballs
+R:Chicken Alfredo|Angel Hair,Alfredo Sauce,Diced Chicken Breast
+R:Tacos|1 Lb Ground Beef Roll,Tortillas,Shredded Cheese,Shredded Lettuce,Sour Cream,Diced Tomato,Taco Seasoning
+R:Caesar Chicken Wraps|Caesar Dressing,Powdered Parmesan,Garlic Powder,Pepper,Diced Chicken Breast,Chopped Romaine,Croutons,Tortillas
+R:Lunch Meat Sandwiches|Lunch Meat,Cheese,Pickle Chips,Mayo
+R:Tuna Sandwiches|Tuna,Mayo,BreadI:1 Lb Ground Beef Roll|36A|37A|40A

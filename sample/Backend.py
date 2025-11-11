@@ -27,7 +27,7 @@ class Backend:
            
     def close(self, root):
         print(f"Closing!\nItems:{self.get_item_lists('name')}\nRecipes:{self.get_recipe_lists('name')}")
-        with open(self.filename, "a+", encoding="utf-8") as f:
+        with open(self.filename, "w", encoding="utf-8") as f:
             f.write("\n".join(self.items + self.recipes))
 
         root.destroy()

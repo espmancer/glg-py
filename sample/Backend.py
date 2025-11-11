@@ -29,7 +29,7 @@ class Backend:
 
         if self.debug:
             self.debug()
-            
+
         root.destroy()
     
     def debug(self):
@@ -45,9 +45,9 @@ class Backend:
             for element in all_lists[i]:
                 print(element)
 
-        
+    # TODO: Split this function into multiple parts for better practice, and add a query
     # TODO: Make non-hardcoded locations for this function
-    def get_item_lists(self, section=None):
+    def get_item_lists(self, section=None, query=None):
         item_names = [entry[2:].split('|')[0] for entry in self.items]
         college_aisles = [entry.split('|')[1] for entry in self.items]
         grandparents_aisles = [entry.split('|')[2] for entry in self.items]
@@ -63,7 +63,7 @@ class Backend:
             return grandparents_aisles
         elif section == "jordan":
             return jordan_aisles
-        
+
     def add_item(self, entry):
         self.items.append(entry)
 
@@ -74,16 +74,29 @@ class Backend:
     def delete_item(self, name):
         self.items.pop(self.get_item_lists("name").index(name))
 
-    def get_recipe_lists(self, section=None):
+    def get_recipe_lists(self, section=None, query=None):
         recipe_names = [entry[2:].split('|')[0] for entry in self.recipes]
         recipe_items = [entry.split('|')[1] for entry in self.recipes]
-
-        if section == None:
-            return self.recipes
-        elif section == "name":
-            return recipe_names
-        elif section == "items":
-            return recipe_items
+        
+        if query == None:
+            if section == None:
+                return self.recipes
+            elif section == "name":
+                return recipe_names
+            elif section == "items":
+                return recipe_items
+        else:
+            try: 
+                index = recipe_names.index(query)
+                
+                if section == None:
+                    return self.recipes[index]
+                elif section == "name":
+                    return recipe_names[index]
+                elif section == "items":
+                    return recipe_items[index]
+            except ValueError:
+                raise ValueError
         
     def add_recipe(self, entry):
         items = entry.split('|')[1].split(',')
@@ -93,7 +106,6 @@ class Backend:
                 print(f"{item} missing!", f"{item} does not exist. Please add and configure {item} first.")
 
         self.recipes.append(entry)
-
 
     def edit_recipe(self, index, entry):
         self.delete_recipe(self.get_recipe_lists("name")[index])
@@ -113,23 +125,28 @@ class Backend:
         # Format each aisle to each item (- [ ] ({aisle}) {item}) 
 
         for entry in user_list:
-            print(f"Searching for {entry} with location '{self.current_location}'...")
+            if self.debug:
+                print(f"Searching for {entry} with location '{self.current_location}'...")
 
             try:
                 self.get_item_lists("name").index(entry)  
             except ValueError:
                 try:
-                    self.get_recipe_lists("name").index(entry)
+                    self.get_recipe_lists("name").index(entry)  
                 except ValueError:
                     self.final_list.append(f"Entry '{entry}' not found!")
                 else:
-                    for items in self.get_recipe_lists("items"):
+                    for items in self.get_recipe_lists("items", entry):
                         for item in items.split(','):
-                            print(f"Found {item}!")
-                            entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
+                            if self.debug:
+                                print(f"Found {item}!")
+                            
+                            entry = f"- [ ] {self.get_item_lists(self.current_location)[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
                             self.final_list.append(entry)
             else:
-                print(f"Found {entry}!")
+                if self.debug:
+                    print(f"Found {entry}!")
+                
                 entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(entry)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(entry)]}"
                 self.final_list.append(entry)
 

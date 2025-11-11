@@ -79,6 +79,7 @@ class Frontend:
             ))
         
                 # Delete Item Button
+        item_entries = [self.item_name_etr, self.college_aisle_etr, self.grandparents_aisle_etr, self.jordan_aisle_etr]
         delete_item_btn = tk.Button(item_frame, text="Delete Item", command=lambda: 
             (
                 self.backend.delete_item(

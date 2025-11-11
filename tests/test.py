@@ -1,5 +1,10 @@
 import tkinter as tk
 root = tk.Tk()
 
-items = [1,2,3]
+listbox = tk.Listbox(root)
 
+listbox.insert(1, "A")
+
+listbox.get(int(listbox.curselection()))
+
+root.mainloop()

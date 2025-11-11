@@ -5,6 +5,11 @@ A grocery list generator made in [Python](https://www.python.org). Originally I 
 - There are functions to add, remove, and edit these strings.
 - Once the list is configured, an alphanumerically sorted list of items and their aisles is created, with each item having the markdown checkbox.
   - [ ] Like this
+## To Run
+1. Download zip.
+2. Extract zip to desired folder.
+3. Go into glg-1.0/dist
+4. Run "main.exe"
 ### Items
 Items are the most concrete level of elements in the list. They contain a name and three aisles, which is formatted as such:
 ```

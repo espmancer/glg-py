@@ -45,115 +45,103 @@ class Backend:
             for element in all_lists[i]:
                 print(element)
 
-    # TODO: Split this function into multiple parts for better practice, and add a query
-    # TODO: Make non-hardcoded locations for this function
-    def get_item_lists(self, section=None, query=None):
+    def get_item_index(self, query):
         item_names = [entry[2:].split('|')[0] for entry in self.items]
-        college_aisles = [entry.split('|')[1] for entry in self.items]
-        grandparents_aisles = [entry.split('|')[2] for entry in self.items]
-        jordan_aisles = [entry.split('|')[3] for entry in self.items]
 
-        if section == None:
-            return self.items
-        elif section == "name":
-            return item_names
-        elif section == "college":
-            return college_aisles
-        elif section == "grandparents":
-            return grandparents_aisles
-        elif section == "jordan":
-            return jordan_aisles
+        return item_names.index(query)
+
+    def get_item_names(self, query=None):
+        item_names = [entry[2:].split('|')[0] for entry in self.items]
+
+        return item_names if query == None else item_names[self.get_item_index(query)]
+
+    def get_item_aisles(self, query=None):
+        index = self.locations.index(self.current_location)
+        item_aisles = [entry[2:].split('|')[index + 1] for entry in self.items]
+
+        return item_aisles if query == None else item_aisles[self.get_item_index(query)]
 
     def add_item(self, entry):
         self.items.append(entry)
 
-    def edit_item(self, index, entry):
-        self.delete_item(self.get_item_lists("name")[index])
+    def edit_item(self, entry):
+        self.delete_item(self.get_item_names(entry))
         self.add_item(entry)
 
     def delete_item(self, name):
-        self.items.pop(self.get_item_lists("name").index(name))
-
-    def get_recipe_lists(self, section=None, query=None):
+        self.items.pop(self.get_item_index(name))
+    
+    def get_recipe_index(self, query):
         recipe_names = [entry[2:].split('|')[0] for entry in self.recipes]
-        recipe_items = [entry.split('|')[1] for entry in self.recipes]
-        
-        if query == None:
-            if section == None:
-                return self.recipes
-            elif section == "name":
-                return recipe_names
-            elif section == "items":
-                return recipe_items
-        else:
-            try: 
-                index = recipe_names.index(query)
-                
-                if section == None:
-                    return self.recipes[index]
-                elif section == "name":
-                    return recipe_names[index]
-                elif section == "items":
-                    return recipe_items[index]
-            except ValueError:
-                raise ValueError
-        
+
+        return recipe_names.index(query)
+
+    def get_recipe_names(self, query=None):
+        recipe_names = [entry[2:].split('|')[0] for entry in self.recipes]
+
+        return recipe_names if query == None else recipe_names[self.get_recipe_index(query)]
+
+    def get_recipe_items(self, query=None):
+        recipe_items = [entry[2:].split('|')[1] for entry in self.recipes]
+
+        return recipe_items if query == None else recipe_items[self.get_recipe_index(query)]
+
     def add_recipe(self, entry):
         items = entry.split('|')[1].split(',')
         
         for item in items:
-            if item not in self.get_item_lists("name"):
+            if item not in self.get_item_names():
                 print(f"{item} missing!", f"{item} does not exist. Please add and configure {item} first.")
 
         self.recipes.append(entry)
 
-    def edit_recipe(self, index, entry):
-        self.delete_recipe(self.get_recipe_lists("name")[index])
+    def edit_recipe(self, name):
+        self.delete_recipe(self.get_recipe_names(name))
         self.add_recipe(entry)
 
     def delete_recipe(self, name):
-        self.recipes.pop(self.get_recipe_lists("name").index(name))
+        self.recipes.pop(self.get_recipe_names(name))
 
     def generate_list(self, user_list):
         self.final_list = []
         user_list = user_list.split('\n')
-
-        # User List will look something like this: [Item A, Recipe A, Item B]
-        # Split the recipes into their respective items
-        # Remove the recipes and add the split recipes to the user list
-        # Get aisle for selected location for each item
-        # Format each aisle to each item (- [ ] ({aisle}) {item}) 
 
         for entry in user_list:
             if self.debug:
                 print(f"Searching for {entry} with location '{self.current_location}'...")
 
             try:
-                self.get_item_lists("name").index(entry)  
+                self.get_item_names(entry)
             except ValueError:
                 try:
-                    self.get_recipe_lists("name").index(entry)  
+                    self.get_recipe_names(entry)
                 except ValueError:
                     self.final_list.append(f"Entry '{entry}' not found!")
                 else:
-                    for items in self.get_recipe_lists("items", entry):
-                        for item in items.split(','):
-                            if self.debug:
+                    for item in self.get_recipe_items(entry).split(','):
+                        if self.debug:
                                 print(f"Found {item}!")
                             
-                            entry = f"- [ ] {self.get_item_lists(self.current_location)[self.get_item_lists('name').index(item)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(item)]}"
-                            self.final_list.append(entry)
+                        # - [ ] (1A) Item Name
+                        entry = f"- [ ] ({self.get_item_aisles(item)}) "
+                        print(entry)
+                        entry = entry + f"{self.get_item_names(item)}"
+                        print(entry)
+                        self.final_list.append(entry)     
             else:
                 if self.debug:
                     print(f"Found {entry}!")
                 
-                entry = f"- [ ] ({self.get_item_aisles(self.current_location, item)}) "
-                entry = entry + f"{self.get_item_names(item)}"
-                self.final_list.append(entry)
-                self.final_list.pop(-1)
+                item = f"- [ ] ({self.get_item_aisles(entry)}) "
+                print(item)
+                item = item + f"{self.get_item_names(entry)}"
+                print(item)
+                self.final_list.append(item)
+                
 
         # TODO: Identify list type to organize accordingly
         # Sort list alphanumerically
+        print(self.final_list)
         self.final_list.sort(key=lambda x: (
             # Numbers
             int(x[7:].split(')')[0][:-1]),
@@ -161,7 +149,7 @@ class Backend:
             x[7:].split(')')[0][-1]
         ))
 
-            copy('\n'.join(self.final_list))
+        copy('\n'.join(self.final_list))
 
     def get_locations(self):
         return self.locations

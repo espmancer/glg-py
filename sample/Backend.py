@@ -4,7 +4,7 @@ class Backend:
     # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
     def __init__(self, filename="grocery_list.txt", debug=False):
         self.filename = filename
-        self.raw_list = []
+        self.raw_list = []a
         self.debug
 
         try:
@@ -147,8 +147,19 @@ class Backend:
                 if self.debug:
                     print(f"Found {entry}!")
                 
-                entry = f"- [ ] ({self.get_item_lists(self.current_location)[self.get_item_lists('name').index(entry)]}) {self.get_item_lists('name')[self.get_item_lists('name').index(entry)]}"
+                entry = f"- [ ] ({self.get_item_aisles(self.current_location, item)}) "
+                entry = entry + f"{self.get_item_names(item)}"
                 self.final_list.append(entry)
+                self.final_list.pop(-1)
+
+        # TODO: Identify list type to organize accordingly
+        # Sort list alphanumerically
+        self.final_list.sort(key=lambda x: (
+            # Numbers
+            int(x[7:].split(')')[0][:-1]),
+            # Letters
+            x[7:].split(')')[0][-1]
+        ))
 
             copy('\n'.join(self.final_list))
 

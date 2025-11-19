@@ -4,7 +4,7 @@ class Backend:
     # NOTE: I may be able to get away with an abstract class because of how similar the recipe and item functions are
     def __init__(self, filename="grocery_list.txt", debug=False):
         self.filename = filename
-        self.raw_list = []a
+        self.raw_list = []
         self.debug
 
         try:

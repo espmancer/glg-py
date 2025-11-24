@@ -5,7 +5,7 @@ class Backend:
     def __init__(self, filename="grocery_list.txt", debug=False):
         self.filename = filename
         self.raw_list = []
-        self.debug
+        self.debug = debug
 
         try:
             with open(self.filename, "r", encoding="utf-8") as f:   
@@ -19,9 +19,6 @@ class Backend:
         self.recipes = [entry for entry in self.raw_list if entry.startswith("R:")]
         self.locations = ["college", "grandparents", "jordan"]
         self.current_location = self.locations[0]
-
-        if self.debug:
-            self.debug()
              
     def close(self, root):
         with open(self.filename, "w", encoding="utf-8") as f:
@@ -55,8 +52,8 @@ class Backend:
 
         return item_names if query == None else item_names[self.get_item_index(query)]
 
-    def get_item_aisles(self, query=None):
-        index = self.locations.index(self.current_location)
+    def get_item_aisles(self, location, query=None):
+        index = self.locations.index(location)
         item_aisles = [entry[2:].split('|')[index + 1] for entry in self.items]
 
         return item_aisles if query == None else item_aisles[self.get_item_index(query)]
@@ -123,10 +120,8 @@ class Backend:
                                 print(f"Found {item}!")
                             
                         # - [ ] (1A) Item Name
-                        entry = f"- [ ] ({self.get_item_aisles(item)}) "
-                        print(entry)
+                        entry = f"- [ ] ({self.get_item_aisles(self.current_location, item)}) "
                         entry = entry + f"{self.get_item_names(item)}"
-                        print(entry)
                         self.final_list.append(entry)     
             else:
                 if self.debug:

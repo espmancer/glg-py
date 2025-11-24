@@ -6,7 +6,7 @@ class Frontend:
         self.backend = backend
         self.root = root
 
-        WIDTH = 500
+        WIDTH = 650
         HEIGHT = 350
 
         root.title("GLG")
@@ -47,7 +47,7 @@ class Frontend:
 
             # Item Frame
                 # Item Listbox
-        self.item_lbox = tk.Listbox(item_frame, listvariable=self.backend.get_item_lists())
+        self.item_lbox = tk.Listbox(item_frame, listvariable=self.backend.get_item_names())
         self.item_lbox.bind('<<ListboxSelect>>', self.select_item)
         
                 # Item Name
@@ -124,7 +124,7 @@ class Frontend:
 
             # Recipe Frame
                 # Recipe Listbox
-        self.recipe_lbox = tk.Listbox(recipe_frame, listvariable=self.backend.get_recipe_lists())
+        self.recipe_lbox = tk.Listbox(recipe_frame, listvariable=self.backend.get_recipe_names())
         self.recipe_lbox.bind('<<ListboxSelect>>', self.select_recipe)
 
                 # Recipe Name Entry
@@ -206,12 +206,12 @@ class Frontend:
     def update_lists(self):
         # Item List
         self.item_lbox.delete(0, tk.END)
-        for item in self.backend.get_item_lists("name"):
+        for item in self.backend.get_item_names():
             self.item_lbox.insert(tk.END, item)
 
         # Recipe List
         self.recipe_lbox.delete(0, tk.END)
-        for recipe in self.backend.get_recipe_lists("name"):
+        for recipe in self.backend.get_recipe_names():
             self.recipe_lbox.insert(tk.END, recipe)
 
     def clear_entries(self, entries):
@@ -238,10 +238,10 @@ class Frontend:
             index = last_index
             self.item_lbox.selection_set(index)
         else:
-            self.set_text(self.item_name_etr, self.backend.get_item_lists("name")[index])
-            self.set_text(self.college_aisle_etr, self.backend.get_item_lists("college")[index])
-            self.set_text(self.grandparents_aisle_etr, self.backend.get_item_lists("grandparents")[index])
-            self.set_text(self.jordan_aisle_etr, self.backend.get_item_lists("jordan")[index])
+            self.set_text(self.item_name_etr, self.backend.get_item_names()[index])
+            self.set_text(self.college_aisle_etr, self.backend.get_item_aisles("college")[index])
+            self.set_text(self.grandparents_aisle_etr, self.backend.get_item_aisles("grandparents")[index])
+            self.set_text(self.jordan_aisle_etr, self.backend.get_item_aisles("jordan")[index])
 
     def add_recipe_command(self):
         recipe_entries = [self.recipe_name_etr, self.recipe_items_list]
@@ -263,8 +263,8 @@ class Frontend:
             index = last_index
             self.item_lbox.selection_set(index)
         else:
-            self.set_text(self.recipe_name_etr, self.backend.get_recipe_lists("name")[index])
-            self.set_text(self.recipe_items_list, self.backend.get_recipe_lists("items")[index].replace(",", "\n"))
+            self.set_text(self.recipe_name_etr, self.backend.get_recipe_names()[index])
+            self.set_text(self.recipe_items_list, self.backend.get_recipe_items()[index].replace(",", "\n"))
 
     def set_text(self, entry, text):
         index = "1.0" if isinstance(entry, tk.Text) else 0 

@@ -225,9 +225,9 @@ class Frontend:
 
     def edit_item_command(self):
         self.backend.edit_item(
-            int(self.item_lbox.curselection()[0]),
             f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"
         )
+
         self.update_lists()
 
     def select_item(self, event):

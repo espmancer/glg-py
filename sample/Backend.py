@@ -62,7 +62,7 @@ class Backend:
         self.items.append(entry)
 
     def edit_item(self, entry):
-        self.delete_item(self.get_item_names(entry))
+        self.delete_item(self.get_item_names(entry[2:].split('|')[0]))
         self.add_item(entry)
 
     def delete_item(self, name):
@@ -98,6 +98,20 @@ class Backend:
 
     def delete_recipe(self, name):
         self.recipes.pop(self.get_recipe_names(name))
+
+    def get_sorting_key(self, aisle):
+        number = ""
+        letters = ""
+
+        for char in aisle:
+            if char.isdigit():
+                number += char
+            else:
+                letters += char
+
+        number = int(number) if number else 0
+
+        return (number, letters)
 
     def generate_list(self, user_list):
         self.final_list = []
@@ -136,13 +150,7 @@ class Backend:
 
         # TODO: Identify list type to organize accordingly
         # Sort list alphanumerically
-        print(self.final_list)
-        self.final_list.sort(key=lambda x: (
-            # Numbers
-            int(x[7:].split(')')[0][:-1]),
-            # Letters
-            x[7:].split(')')[0][-1]
-        ))
+        self.final_list.sort(key=self.get_sorting_key)
 
         copy('\n'.join(self.final_list))
 

@@ -70,13 +70,7 @@ class Frontend:
         add_item_btn = tk.Button(item_frame, text="Save New Item", command=lambda: self.add_item_command())
 
                 # Edit Item Button
-        edit_item_btn = tk.Button(item_frame, text="Save Item", command=lambda: 
-            (
-                self.backend.edit_item(
-                    int(self.item_lbox.curselection()[0]),
-                    f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"),
-                self.update_lists()
-            ))
+        edit_item_btn = tk.Button(item_frame, text="Save Item", command=lambda: self.edit_item_command())
         
                 # Delete Item Button
         item_entries = [self.item_name_etr, self.college_aisle_etr, self.grandparents_aisle_etr, self.jordan_aisle_etr]
@@ -140,13 +134,7 @@ class Frontend:
 
                 # Edit Recipe Button
         newline = '\n'
-        edit_recipe_btn = tk.Button(recipe_frame, text="Save Recipe", command=lambda: 
-            (
-                self.backend.recipe_item(
-                    int(self.recipe_lbox.curselection()[0]),
-                    f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"),
-                self.update_lists()
-            ))
+        edit_recipe_btn = tk.Button(recipe_frame, text="Save Recipe", command=lambda: self.edit_recipe_command())
         
                 # Delete Recipe Button
         delete_recipe_btn = tk.Button(recipe_frame, text="Delete Recipe", command=lambda: 
@@ -221,11 +209,26 @@ class Frontend:
     def add_item_command(self):
         item_entries = [self.item_name_etr, self.college_aisle_etr, self.grandparents_aisle_etr,self.jordan_aisle_etr]
         
-        self.backend.add_item(
+        try:
+            self.backend.get_item_index(item_entries[0].get())
+        except ValueError:
+            self.backend.add_item(
             f"I:{item_entries[0].get()}|{item_entries[1].get()}|{item_entries[2].get()}|{item_entries[3].get()}"
         )
+            self.update_lists()
+            self.clear_entries(item_entries)
+        else:
+            overwrite = messagebox.askyesno(title=None, message="Item already exists. Overwrite?")
+
+            if overwrite == 'yes':
+                self.edit_item_command()
+
+    def edit_item_command(self):
+        self.backend.edit_item(
+            int(self.item_lbox.curselection()[0]),
+            f"I:{self.item_name_etr.get()}|{self.college_aisle_etr.get()}|{self.grandparents_aisle_etr.get()}|{self.jordan_aisle_etr.get()}"
+        )
         self.update_lists()
-        self.clear_entries(item_entries)
 
     def select_item(self, event):
         last_index = 0
@@ -247,10 +250,24 @@ class Frontend:
         recipe_entries = [self.recipe_name_etr, self.recipe_items_list]
         newline = '\n'
 
-        self.backend.add_recipe(
-            f"R:{recipe_entries[0].get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}")
+        try:
+            self.backend.get_recipe_index(recipe_entries[0].get())
+        except ValueError:
+            self.backend.add_recipe(
+                f"R:{recipe_entries[0].get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}")
+            self.update_lists()
+            self.clear_entries(recipe_entries)
+        else:
+            overwrite = messagebox.askyesno(title=None, message="Recipe already exists. Overwrite?")
+
+            if overwrite == 'yes':
+                self.edit_recipe_command()
+
+    def edit_recipe_command(self):
+        self.backend.get_recipe_items(
+            int(self.recipe_lbox.curselection()[0]),
+            f"R:{self.recipe_name_etr.get()}|{self.recipe_items_list.get('1.0', 'end-1c').replace(newline, ',')}"),
         self.update_lists()
-        self.clear_entries(recipe_entries)
 
     def select_recipe(self, event):
         last_index = 0

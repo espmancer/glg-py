@@ -74,6 +74,8 @@ I:Tomato Soup|7A|12A|13A
 I:Tortillas|6A|7A|7A
 I:Tuna|7A|12A|12A
 I:Yogurt|33A|36A|28A
+I:Diced Ham|35A|37A|39A
+I:Garlic Cloves|4A|12A|12A
 R:Beef Stroganoff and Mashed Potatoes|Stroganoff Kit,1 Lb Ground Beef Roll,Milk,Mashed Potatoes
 R:Broccoli Cheddar Soup|Broccoli Florets,Chopped Onions,Butter Stick,Flour,Salt,Milk,Chicken Broth,Shredded Cheese
 R:Cheeseburgers|Cheese,Burgers
@@ -86,4 +88,5 @@ R:Chicken Alfredo|Angel Hair,Alfredo Sauce,Diced Chicken Breast
 R:Tacos|1 Lb Ground Beef Roll,Tortillas,Shredded Cheese,Shredded Lettuce,Sour Cream,Diced Tomato,Taco Seasoning
 R:Caesar Chicken Wraps|Caesar Dressing,Powdered Parmesan,Garlic Powder,Pepper,Diced Chicken Breast,Chopped Romaine,Croutons,Tortillas
 R:Lunch Meat Sandwiches|Lunch Meat,Cheese,Pickle Chips,Mayo
-R:Tuna Sandwiches|Tuna,Mayo,BreadI:1 Lb Ground Beef Roll|36A|37A|40A
+R:Tuna Sandwiches|Tuna,Mayo,Bread
+R:Carbonara|Diced Ham,Butter Stick,Black Pepper,Garlic Cloves

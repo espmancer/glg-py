@@ -1,5 +1,5 @@
 import Frontend, Backend
-from sys import argv       
+from sys import argv
 
 # Main Loop
 def main(args = argv[1:]):

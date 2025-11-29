@@ -141,10 +141,8 @@ class Backend:
                 if self.debug:
                     print(f"Found {entry}!")
                 
-                item = f"- [ ] ({self.get_item_aisles(entry)}) "
-                print(item)
+                item = f"- [ ] ({self.get_item_aisles(self.current_location, entry)}) "
                 item = item + f"{self.get_item_names(entry)}"
-                print(item)
                 self.final_list.append(item)
                 
 

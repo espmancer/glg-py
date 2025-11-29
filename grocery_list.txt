@@ -76,17 +76,27 @@ I:Tuna|7A|12A|12A
 I:Yogurt|33A|36A|28A
 I:Diced Ham|35A|37A|39A
 I:Garlic Cloves|4A|12A|12A
+I:Hoagie Rolls|13A|7A|7A
+I:Roast Beef|35A|37A|39A
+I:Beef Consomme|7A|12A|13A
+I:Provolone|35A|37A|39A
+I:Beef Stock|7A|12A|13A
+I:Heavy Cream|33A|35A|37A
+I:Soy Sauce|6A|10A|11A
+I:Rosemary|8A|15A|17A
 R:Beef Stroganoff and Mashed Potatoes|Stroganoff Kit,1 Lb Ground Beef Roll,Milk,Mashed Potatoes
 R:Broccoli Cheddar Soup|Broccoli Florets,Chopped Onions,Butter Stick,Flour,Salt,Milk,Chicken Broth,Shredded Cheese
 R:Cheeseburgers|Cheese,Burgers
-R:Chili Dogs|Chili,Hot Dogs,Hot Dog Buns,Chopped Onions
+R:Chili Dogs|Chili,Hot Dogs,Hot Dog Buns,Chopped Onions,Cheese
 R:Grilled Cheese and Tomato Soup|Bread,Cheese,Tomato Soup
-R:Meatballs and Shells n Cheddar|Meatballs,Spaghetti Sauce,Shells n Cheddar
+R:Meatballs and Shells n Cheddar|Meatballs,Shells n Cheddar
+R:Meatball Sauce|Beef Stock,Heavy Cream,Flour,Soy Sauce,Black Pepper,Rosemary
 R:Smoked Sausage and Baked Beans|Smoked Sausage,Baked Beans
 R:Spaghetti and Meatballs|Spaghetti,Spaghetti Sauce,1 Lb Ground Beef Roll,Meatballs
 R:Chicken Alfredo|Angel Hair,Alfredo Sauce,Diced Chicken Breast
 R:Tacos|1 Lb Ground Beef Roll,Tortillas,Shredded Cheese,Shredded Lettuce,Sour Cream,Diced Tomato,Taco Seasoning
 R:Caesar Chicken Wraps|Caesar Dressing,Powdered Parmesan,Garlic Powder,Pepper,Diced Chicken Breast,Chopped Romaine,Croutons,Tortillas
-R:Lunch Meat Sandwiches|Lunch Meat,Cheese,Pickle Chips,Mayo
+R:Lunch Meat Sandwiches|Lunch Meat,Cheese,Pickle Chips,Mayo,Bread
 R:Tuna Sandwiches|Tuna,Mayo,Bread
 R:Carbonara|Diced Ham,Butter Stick,Black Pepper,Garlic Cloves
+R:French Dip Sandwiches|Hoagie Rolls,Beef Consomme,Roast Beef,Provolone

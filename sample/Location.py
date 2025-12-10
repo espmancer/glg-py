@@ -27,3 +27,7 @@ class Location():
     # Get one location's value at index from the locations list.
     def getLocation(self, index) -> str:
         return self.entities[index]
+
+    # Get the currentLocation.
+    def getCurrentLocation(self) -> str:
+        return self.currentLocation

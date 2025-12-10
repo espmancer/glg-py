@@ -15,3 +15,6 @@ class EntityHandler():
     def removeEntity(self, index):
         self.entities.pop(index)
     
+    # Set one object's value to another object at an index in the entities dictionary.
+    def editEntity(self, index, entity):
+        self.entities[index] = entity

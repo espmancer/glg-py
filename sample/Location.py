@@ -6,3 +6,7 @@ an n-sized list of locations.
 class Location():
     def __init__(self, locations=[]):
         self.locations = locations
+
+    # Add one location
+    def addLocation(self, location):
+        self.locations.add(location)

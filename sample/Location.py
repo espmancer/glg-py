@@ -7,6 +7,10 @@ class Location():
     def __init__(self, locations=[]):
         self.locations = locations
 
-    # Add one location
+    # Add one location to the locations list.
     def addLocation(self, location):
         self.locations.add(location)
+
+    # Remove one location at index from the locations list.
+    def removeLocation(self, index):
+        self.locations.pop(index)

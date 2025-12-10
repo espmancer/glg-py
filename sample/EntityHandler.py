@@ -11,10 +11,14 @@ class EntityHandler():
     def addEntity(self, entity):
         self.entities.add(entity)
     
-    # Remove one object at an index from the entities dictionary.
-    def removeEntity(self, index):
-        self.entities.pop(index)
+    # Remove one object at key from the entities dictionary.
+    def removeEntity(self, key):
+        del self.entities[key]
     
-    # Set one object's value to another object at an index in the entities dictionary.
-    def editEntity(self, index, entity):
-        self.entities[index] = entity
+    # Set one object's value to another object at key in the entities dictionary.
+    def editEntity(self, key, entity):
+        self.entities[key] = entity
+
+    # Get one object's value at key from the entities dictionary.
+    def getEntity(self, key) -> object:
+        return self.entities[index]

@@ -14,3 +14,7 @@ class Location():
     # Remove one location at index from the locations list.
     def removeLocation(self, index):
         self.locations.pop(index)
+
+    # Set one location's value to another location at index in the locations list.
+    def editLocation(self, index, location):
+        self.locations[index] = location

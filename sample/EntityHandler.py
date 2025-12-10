@@ -9,7 +9,7 @@ class EntityHandler():
 
     # Add one object to the entities dictionary.
     def addEntity(self, entity):
-        self.entities.add(entity)
+        self.entities.update({entity.name: entity})
     
     # Remove one object at key from the entities dictionary.
     def removeEntity(self, key):
@@ -21,4 +21,4 @@ class EntityHandler():
 
     # Get one object's value at key from the entities dictionary.
     def getEntity(self, key) -> object:
-        return self.entities[index]
+        return self.entities[key]

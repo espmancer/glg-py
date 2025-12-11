@@ -8,4 +8,5 @@ from dataclasses import dataclass
 @dataclass
 class ItemFactory():
     name: str 
+    kind: str
     aisles: dict

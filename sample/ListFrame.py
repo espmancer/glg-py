@@ -2,6 +2,7 @@
 ListFrame
 This class is designed as the list generation screen.
 """
+from tkinter import Text, Button
 class ListFrame():
     def __init__(self, frame):
         self.listFrame = tk.Frame(frame)

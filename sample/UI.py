@@ -2,7 +2,6 @@
 UI
 This class is designed as the primary window for the frontend.
 """
-import tkinter as tk
 from tkinter import ttk
 
 class UI():
@@ -19,6 +18,6 @@ class UI():
         tabNotebook.pack(fill="both", expand=True)
         tabNotebook.bind('<<NotebookTabChanged>>', lambda event: self.updateLists())
 
-        ListFrame()
-
         self.root.mainloop()
+
+    

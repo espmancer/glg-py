@@ -23,10 +23,16 @@ class UI():
         tabNotebook.bind('<<NotebookTabChanged>>', lambda event: self.updateLists())
 
         # Frame Variables
-        listFrame = ListFrame(root).getListFrame()
+        listFrame = ListFrame(root).getFrame()
+        # itemFrame = ItemFrame(root).getListFrame()
+        # itemContainerFrame = ItemContainerFrame(root).getListFrame()
+        # locationFrame = locationFrame(root).getListFrame()
         
         # Add all frames
         tabNotebook.add(listFrame, text="List")
+        # tabNotebook.add(itemFrame, text="Items")
+        # tabNotebook.add(itemContainerFrame, text="Recipes")
+        # tabNotebook.add(locationFrame, text="Locations")
+        
+        # Main Loop
         root.mainloop()
-    
-    

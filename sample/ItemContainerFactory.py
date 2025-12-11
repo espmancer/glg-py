@@ -9,4 +9,4 @@ from dataclasses import dataclass
 class ItemContainerFactory:
     name: str
     kind: str
-    items: dict
+    items: list

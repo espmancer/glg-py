@@ -22,3 +22,7 @@ class EntityHandler():
     # Get one object's value at key from the entities dictionary.
     def getEntity(self, key) -> object:
         return self.entities[key]
+
+    # Get all objects from the entities dictionary.
+    def getEntities(self) -> list:
+        return self.entities

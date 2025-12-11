@@ -24,5 +24,5 @@ class EntityHandler():
         return self.entities[key]
 
     # Get all objects from the entities dictionary.
-    def getEntities(self) -> list:
+    def getEntities(self) -> dict:
         return self.entities

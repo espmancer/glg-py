@@ -4,7 +4,7 @@ This class is designed as the list generation screen.
 """
 from tkinter import Frame, Text, Button
 
-class ListFrame():
+class ListFrame(Frame):
     def __init__(self, frame):
         self.listFrame = Frame(frame)
         self.choice = ""
@@ -26,7 +26,7 @@ class ListFrame():
         return self.choice
     
     # Get the listFrame.
-    def getListFrame(self) -> Frame:
+    def getFrame(self) -> Frame:
         return self.listFrame 
 
     # Set the choice of button.

@@ -8,7 +8,7 @@ from ListFrame import ListFrame
 from ItemFrame import ItemFrame
 
 class UI():
-    def __init__(self, entity):
+    def __init__(self, entityHandler, listGenerator, location):
         # UI Variables
         self.root = tk.Tk()
         WIDTH = 650
@@ -22,11 +22,16 @@ class UI():
         tabNotebook.pack(fill="both", expand=True)
         tabNotebook.bind('<<NotebookTabChanged>>', lambda event: self.updateLists())
 
+        # Objects Variables
+        self.listGenerator = listGenerator
+        self.entityHandler = entityHandler
+        self.location = location
+
         # Frame Variables
         listFrame = ListFrame(self.root).getFrame()
-        itemNames = [entity for entity in entity.getEntities()]
-        print(itemNames)
-        itemFrame = ItemFrame(self.root).getFrame()
+        itemNames = [item.name for item in self.entity.getEntities().values()
+                     if item.kind == "Item"]
+        itemFrame = ItemFrame(self.root, itemNames).getFrame()
         # itemContainerFrame = ItemContainerFrame(self.root).getFrame()
         # locationFrame = locationFrame(self.root).getFrame()
         
@@ -41,3 +46,8 @@ class UI():
 
     def close(self):
         self.root.destroy()
+
+    def parseChoice(self, choice=""):
+        match choice:
+            case "generateList":
+                self.listGenerator.generateList("Item A", self.entityHandler, self.location)

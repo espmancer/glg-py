@@ -22,14 +22,14 @@ class UI():
         tabNotebook.pack(fill="both", expand=True)
         tabNotebook.bind('<<NotebookTabChanged>>', lambda event: self.updateLists())
 
-        # Objects Variables
+        # Object Variables
         self.listGenerator = listGenerator
         self.entityHandler = entityHandler
         self.location = location
 
         # Frame Variables
         listFrame = ListFrame(self.root).getFrame()
-        itemNames = [item.name for item in self.entity.getEntities().values()
+        itemNames = [item.name for item in self.entityHandler.getEntities().values()
                      if item.kind == "Item"]
         itemFrame = ItemFrame(self.root, itemNames).getFrame()
         # itemContainerFrame = ItemContainerFrame(self.root).getFrame()
@@ -51,3 +51,4 @@ class UI():
         match choice:
             case "generateList":
                 self.listGenerator.generateList("Item A", self.entityHandler, self.location)
+                print(self.listGenerator.getList())

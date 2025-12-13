@@ -18,7 +18,7 @@ class ListFrame(Frame):
         userList.grid(column=0, row=0, sticky="nsew", padx=5, pady=5)
 
         # Generate List Button
-        generateListButton = Button(self.listFrame, text="Generate List", command=lambda: setChoice("generateList"))
+        generateListButton = Button(self.listFrame, text="Generate List", command=lambda: self.setChoice("generateList"))
         generateListButton.grid(column=1, row=0, sticky="nsew", padx=5, pady=5)
     
     # Get the choice of button.

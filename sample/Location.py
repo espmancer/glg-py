@@ -4,7 +4,7 @@ This class is designed to add, remove, and manipulate an n-sized list of locatio
 This class is also designed to get and set a current location.
 """
 class Location():
-    def __init__(self, locations=["Location 1"], currentLocation=locations[0]):
+    def __init__(self, locations=["Location 1"], currentLocation="Location 1"):
         self.locations = locations
         self.currentLocation = currentLocation 
 

@@ -14,13 +14,13 @@ class ListFrame(Frame):
         self.listFrame.rowconfigure(0, weight=1)
 
         # User List (Text Widget)
-        userList = Text(self.listFrame, width=25)
-        userList.grid(column=0, row=0, sticky="nsew", padx=5, pady=5)
+        self.userList = Text(self.listFrame, width=25)
+        self.userList.grid(column=0, row=0, sticky="nsew", padx=5, pady=5)
 
         # Generate List Button
-        generateListButton = Button(self.listFrame, text="Generate List", command=lambda: self.setChoice("generateList"))
-        generateListButton.grid(column=1, row=0, sticky="nsew", padx=5, pady=5)
-    
+        self.generateListButton = Button(self.listFrame, text="Generate List", command=lambda: self.listFrame.event_generate("<<generateList>>"))
+        self.generateListButton.grid(column=1, row=0, sticky="nsew", padx=5, pady=5)
+
     # Get the choice of button.
     def getChoice(self) -> str:
         return self.choice
@@ -28,7 +28,3 @@ class ListFrame(Frame):
     # Get the listFrame.
     def getFrame(self) -> Frame:
         return self.listFrame 
-
-    # Set the choice of button.
-    def setChoice(self, choice):
-        self.choice = choice

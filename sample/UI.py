@@ -41,14 +41,18 @@ class UI():
         # tabNotebook.add(itemContainerFrame, text="Recipes")
         # tabNotebook.add(locationFrame, text="Locations")
         
-        # Main Loop
+        # Bind Commands
+        listFrame.bind('<<generateList>>', lambda e: self.parseChoice("<<generateList>>"))
+
         self.root.mainloop()
 
     def close(self):
-        self.root.destroy()
+        self.root.quit()
 
-    def parseChoice(self, choice=""):
+    def parseChoice(self, choice):
         match choice:
-            case "generateList":
-                self.listGenerator.generateList("Item A", self.entityHandler, self.location)
+            case "<<generateList>>":
                 print(self.listGenerator.getList())
+
+if __name__ == '__main__':
+    UI.UI()

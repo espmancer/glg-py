@@ -20,10 +20,6 @@ class ListFrame(Frame):
         # Generate List Button
         self.generateListButton = Button(self.listFrame, text="Generate List", command=lambda: self.listFrame.event_generate("<<generateList>>"))
         self.generateListButton.grid(column=1, row=0, sticky="nsew", padx=5, pady=5)
-
-    # Get the choice of button.
-    def getChoice(self) -> str:
-        return self.choice
     
     # Get the listFrame.
     def getFrame(self) -> Frame:

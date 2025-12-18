@@ -2,7 +2,7 @@
 ItemFrame
 This class is designed as the Item configuration screen.
 """
-from tkinter import Frame, Listbox, Label, Entry, OptionMenu
+from tkinter import Frame, Listbox, Label, Entry, OptionMenu, Button
 
 class ItemFrame(Frame):
     def __init__(self, frame, itemNames=[]):
@@ -19,17 +19,12 @@ class ItemFrame(Frame):
 
         # Item Listbox
         self.itemListbox = Listbox(self.itemFrame, listvariable=itemNames)
-        self.itemListbox.bind('<<ListboxSelect>>', lambda: setChoice("selectItem"))
+        self.itemListbox.bind('<<ListboxSelect>>', lambda: self.itemFrame.generate_event("<<getEntity>>"))
         self.itemListbox.grid(column=0, row=0, rowspan=4)
 
-    # Get the choice of button.
-    def getChoice(self) -> str:
-        return self.choice
+        # Add Item Button
+        self.addItemButton = Button(self.itemFrame)
     
     # Get the listFrame.
     def getFrame(self) -> Frame:
         return self.itemFrame 
-
-    # Set the choice of button.
-    def setChoice(self, choice):
-        self.choice = choice

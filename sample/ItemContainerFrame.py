@@ -4,7 +4,7 @@ This class is designed as the ItemContainer (recipe) configuration screen.
 """
 import tkinter as tk
 
-class ItemFrame(tk.Frame):
+class ItemContainerFrame(tk.Frame):
     def __init__(self, frame, itemContainerNames=[]):
         super().__init__()
 
@@ -17,15 +17,15 @@ class ItemFrame(tk.Frame):
             for row in range(rowCount):
                 self.rowconfigure(row, weight=1)
 
-        # Item Listbox
+        # Item Container Listbox
         self.itemContainerListbox = tk.Listbox(self, listvariable=itemContainerNames)
         self.itemContainerListbox.grid(column=0, row=0, rowspan=4)
-        # Add Item Button
+        # Add Item Container Button
         self.addItemContainerButton = tk.Button(self, text="Save New Recipe", command=lambda: self.event_generate("<<addItemContainer>>"))
         self.addItemContainerButton.grid(column=0, row=4, columnspan=3)
-        # Edit Item Button
+        # Edit Item Container Button
         self.editItemContainerButton = tk.Button(self, text="Save Recipe", command=lambda: self.event_generate("<<editItemContainer>>"))
         self.editItemContainerButton.grid(column=0, row=5, columnspan=3)
-        # Remove Item Button
+        # Remove Item Container Button
         self.removeItemContainerButton = tk.Button(self, text="Remove Recipe", command=lambda: self.event_generate("<<removeItemContainer>>"))
         self.removeItemContainerButton.grid(column=0, row=6, columnspan=3)

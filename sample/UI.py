@@ -34,15 +34,16 @@ class UI():
         #     item.name for item in self.entityHandler.getEntities().values()
         #     if item.kind == "Item"]
         itemContainerNames = []
+        locations = []
         self.itemFrameObject = ItemFrame(self.root, itemNames)
         self.itemContainerFrameObject = ItemContainerFrame(self.root, itemContainerNames)
-        # self.locationFrameObject = locationFrame(self.root)
+        self.locationFrameObject = locationFrame(self.root, locations)
         
         # Add all frames
         tabNotebook.add(self.listFrameObject, text="List")
         tabNotebook.add(self.itemFrameObject, text="Items")
         tabNotebook.add(self.itemContainerFrameObject, text="Recipes")
-        # tabNotebook.add(self.locationFrameObject, text="Locations")
+        tabNotebook.add(self.locationFrameObject, text="Locations")
         
         # Bind Virtual Events
         commands = [
@@ -53,7 +54,10 @@ class UI():
             '<<removeItem>>',
             '<<addItemContainer>>',
             '<<editItemContainer>>',
-            '<<removeItemContainer>>'
+            '<<removeItemContainer>>',
+            '<<addLocation>>',
+            '<<editLocation>>',
+            '<<removeLocation>>'
             ]
 
         for command in commands:
@@ -85,6 +89,12 @@ class UI():
                 print("Recipe edited!")
             case "<<removeItemContainer>>":
                 print("Recipe removed!")
+            case "<<addLocation>>":
+                print("Location added!")
+            case "<<editLocation>>":
+                print("Location edited!")
+            case "<<removeLocation>>":
+                print("Location removed!")
 
 if __name__ == '__main__':
     UI.UI()

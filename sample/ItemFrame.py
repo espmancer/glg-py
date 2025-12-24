@@ -8,7 +8,6 @@ class ItemFrame(tk.Frame):
     def __init__(self, frame, itemNames=[]):
         super().__init__()
 
-        self.choice = ""
         columnCount = 3
         rowCount = 7
 

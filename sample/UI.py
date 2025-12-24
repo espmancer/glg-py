@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from ListFrame import ListFrame
 from ItemFrame import ItemFrame
+from ItemContainerFrame import ItemContainerFrame
 
 class UI():
     def __init__(self, entityHandler, listGenerator, location):
@@ -19,31 +20,45 @@ class UI():
         self.root.geometry(f"{WIDTH}x{HEIGHT}")
         self.root.protocol("WM_DELETE_WINDOW", lambda: self.close())
         tabNotebook = ttk.Notebook(self.root)
-        tabNotebook.pack(fill="both", expand=True)
         tabNotebook.bind('<<NotebookTabChanged>>', lambda event: self.updateLists())
+        tabNotebook.pack(fill="both", expand=True)
 
         # Object Variables
-        self.listGenerator = listGenerator
-        self.entityHandler = entityHandler
-        self.location = location
-
-        # Frame Variables
-        listFrame = ListFrame(self.root).getFrame()
-        itemNames = [item.name for item in self.entityHandler.getEntities().values()
-                     if item.kind == "Item"]
-        itemFrame = ItemFrame(self.root, itemNames).getFrame()
-        # itemContainerFrame = ItemContainerFrame(self.root).getFrame()
-        # locationFrame = locationFrame(self.root).getFrame()
+        self.listGeneratorObject = listGenerator
+        self.entityHandlerObject = entityHandler
+        self.locationObject = location
+        # Frame Object Variables
+        self.listFrameObject = ListFrame(self.root)
+        itemNames = []
+        # itemNames = [
+        #     item.name for item in self.entityHandler.getEntities().values()
+        #     if item.kind == "Item"]
+        itemContainerNames = []
+        self.itemFrameObject = ItemFrame(self.root, itemNames)
+        self.itemContainerFrameObject = ItemContainerFrame(self.root, itemContainerNames)
+        # self.locationFrameObject = locationFrame(self.root)
         
         # Add all frames
-        tabNotebook.add(listFrame, text="List")
-        tabNotebook.add(itemFrame, text="Items")
-        # tabNotebook.add(itemContainerFrame, text="Recipes")
-        # tabNotebook.add(locationFrame, text="Locations")
+        tabNotebook.add(self.listFrameObject, text="List")
+        tabNotebook.add(self.itemFrameObject, text="Items")
+        tabNotebook.add(self.itemContainerFrameObject, text="Recipes")
+        # tabNotebook.add(self.locationFrameObject, text="Locations")
         
-        # Bind Commands
-        listFrame.bind('<<generateList>>', lambda e: self.parseChoice("<<generateList>>"))
+        # Bind Virtual Events
+        commands = [
+            '<<generateList>>',
+            '<<ListboxSelect>>',
+            '<<addItem>>',
+            '<<editItem>>',
+            '<<removeItem>>',
+            '<<addItemContainer>>',
+            '<<editItemContainer>>',
+            '<<removeItemContainer>>'
+            ]
 
+        for command in commands:
+            self.root.bind(command, lambda event, eventCommand=command: self.parseChoice(eventCommand))    
+        
         self.root.mainloop()
 
     def close(self):
@@ -52,7 +67,24 @@ class UI():
     def parseChoice(self, choice):
         match choice:
             case "<<generateList>>":
-                print(self.listGenerator.getList())
+                userListText = self.listFrameObject.getUserList()
+                print(userListText)
+                # self.listGenerator.generateList()
+                # print(self.listGenerator.getList())
+            case "<<getEntity>>":
+                print(self.entityHandler.getEntity())
+            case "<<addItem>>":
+                print("Item added!")
+            case "<<editItem>>":
+                print("Item edited!")
+            case "<<removeItem>>":
+                print("Item removed!")
+            case "<<addItemContainer>>":
+                print("Recipe added!")
+            case "<<editItemContainer>>":
+                print("Recipe edited!")
+            case "<<removeItemContainer>>":
+                print("Recipe removed!")
 
 if __name__ == '__main__':
     UI.UI()

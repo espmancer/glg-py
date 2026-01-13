@@ -11,7 +11,7 @@ def main(args = argv[1:]):
     entityHandler = EntityHandler.EntityHandler()
     location = Location.Location()
     listGenerator = ListGenerator.ListGenerator("", entityHandler, location)
-    userInterface = UI.UI(entityHandler, listGenerator, Location)
+    userInterface = UI.UI(entityHandler, listGenerator, location)
     
     entityHandler.addEntity(ItemFactory("Item A", "Item", {"College": "A1"}))
     entityHandler.addEntity(ItemFactory("Recipe A", "ItemContainer", ["Item A"]))

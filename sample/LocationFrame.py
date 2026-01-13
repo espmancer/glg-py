@@ -29,3 +29,9 @@ class LocationFrame(tk.Frame):
         # Remove Item Button
         self.removeLocationButton = tk.Button(self, text="Remove Location", command=lambda: self.event_generate("<<removeLocation>>"))
         self.removeLocationButton.grid(column=0, row=7, columnspan=3)
+
+    def updateLists(self,entityNames):
+        self.locationListbox.delete(0,tk.END)
+        
+        for entityName in entityNames:
+            self.locationListbox.insert(tk.END, entityName)

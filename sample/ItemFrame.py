@@ -29,3 +29,9 @@ class ItemFrame(tk.Frame):
         # Remove Item Button
         self.removeItemButton = tk.Button(self, text="Remove Item", command=lambda: self.event_generate("<<removeItem>>"))
         self.removeItemButton.grid(column=0, row=6, columnspan=3)
+
+    def updateLists(self,entityNames):
+        self.itemListbox.delete(0,tk.END)
+        
+        for entityName in entityNames:
+            self.itemListbox.insert(tk.END, entityName)

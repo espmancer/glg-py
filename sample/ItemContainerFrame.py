@@ -29,3 +29,9 @@ class ItemContainerFrame(tk.Frame):
         # Remove Item Container Button
         self.removeItemContainerButton = tk.Button(self, text="Remove Recipe", command=lambda: self.event_generate("<<removeItemContainer>>"))
         self.removeItemContainerButton.grid(column=0, row=6, columnspan=3)
+
+    def updateLists(self,entityNames):
+        self.itemContainerListbox.delete(0,tk.END)
+        
+        for entityName in entityNames:
+            self.itemContainerListbox.insert(tk.END, entityName)

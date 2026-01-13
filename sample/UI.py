@@ -30,15 +30,9 @@ class UI():
         self.locationObject = location
         # Frame Object Variables
         self.listFrameObject = ListFrame(self.root)
-        itemNames = []
-        # itemNames = [
-        #     item.name for item in self.entityHandler.getEntities().values()
-        #     if item.kind == "Item"]
-        itemContainerNames = []
-        locations = []
-        self.itemFrameObject = ItemFrame(self.root, itemNames)
-        self.itemContainerFrameObject = ItemContainerFrame(self.root, itemContainerNames)
-        self.locationFrameObject = LocationFrame(self.root, locations)
+        self.itemFrameObject = ItemFrame(self.root, [])
+        self.itemContainerFrameObject = ItemContainerFrame(self.root, [])
+        self.locationFrameObject = LocationFrame(self.root, [])
         
         # Add all frames
         tabNotebook.add(self.listFrameObject, text="List")
@@ -96,6 +90,20 @@ class UI():
                 print("Location edited!")
             case "<<removeLocation>>":
                 print("Location removed!")
+
+    def updateLists(self):
+        itemNames = [
+            item.name for item in self.entityHandlerObject.getEntities().values()
+            if item.kind == "Item"
+        ]
+        itemContainerNames = [
+            itemContainer.name for itemContainer in self.entityHandlerObject.getEntities().values()
+            if itemContainer.kind == "ItemContainer"
+        ]
+        locations = self.locationObject.getLocations()
+        self.itemFrameObject.updateLists(itemNames)
+        self.itemContainerFrameObject.updateLists(itemContainerNames)
+        self.locationFrameObject.updateLists(locations)
 
 if __name__ == '__main__':
     UI.UI()

@@ -24,9 +24,9 @@ class Location():
     def setCurrentLocation(self, index):
         self.currentLocation = self.locations[index]
 
-    # Get one location's value at index from the locations list.
-    def getLocation(self, index) -> str:
-        return self.entities[index]
+    # Get a list of all of the locations.
+    def getLocations(self) -> list:
+        return self.locations
 
     # Get the currentLocation.
     def getCurrentLocation(self) -> str:

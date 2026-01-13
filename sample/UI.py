@@ -7,6 +7,7 @@ from tkinter import ttk
 from ListFrame import ListFrame
 from ItemFrame import ItemFrame
 from ItemContainerFrame import ItemContainerFrame
+from LocationFrame import LocationFrame
 
 class UI():
     def __init__(self, entityHandler, listGenerator, location):
@@ -37,7 +38,7 @@ class UI():
         locations = []
         self.itemFrameObject = ItemFrame(self.root, itemNames)
         self.itemContainerFrameObject = ItemContainerFrame(self.root, itemContainerNames)
-        self.locationFrameObject = locationFrame(self.root, locations)
+        self.locationFrameObject = LocationFrame(self.root, locations)
         
         # Add all frames
         tabNotebook.add(self.listFrameObject, text="List")

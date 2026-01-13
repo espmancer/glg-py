@@ -22,10 +22,10 @@ class LocationFrame(tk.Frame):
         self.locationListbox.grid(column=0, row=0, rowspan=4)
         # Add Item Button
         self.addLocationButton = tk.Button(self, text="Save New Location", command=lambda: self.event_generate("<<addLocation>>"))
-        self.addLocationButton.grid(column=0, row=2, columnspan=3)
+        self.addLocationButton.grid(column=0, row=5, columnspan=3)
         # Edit Item Button
         self.editLocationButton = tk.Button(self, text="Save Location", command=lambda: self.event_generate("<<editLocation>>"))
-        self.editLocationButton.grid(column=0, row=3, columnspan=3)
+        self.editLocationButton.grid(column=0, row=6, columnspan=3)
         # Remove Item Button
         self.removeLocationButton = tk.Button(self, text="Remove Location", command=lambda: self.event_generate("<<removeLocation>>"))
-        self.removeLocationButton.grid(column=0, row=4, columnspan=3)
+        self.removeLocationButton.grid(column=0, row=7, columnspan=3)

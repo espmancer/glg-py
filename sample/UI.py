@@ -30,9 +30,13 @@ class UI():
         self.locationObject = location
         # Frame Object Variables
         self.listFrameObject = ListFrame(self.root)
-        self.itemFrameObject = ItemFrame(self.root, [])
-        self.itemContainerFrameObject = ItemContainerFrame(self.root, [])
-        self.locationFrameObject = LocationFrame(self.root, [])
+        self.itemFrameObject = ItemFrame(
+            self.root,
+            self.locationObject.getCurrentLocation(),
+            self.locationObject.getLocations()
+        )
+        self.itemContainerFrameObject = ItemContainerFrame(self.root)
+        self.locationFrameObject = LocationFrame(self.root)
         
         # Add all frames
         tabNotebook.add(self.listFrameObject, text="List")
@@ -50,6 +54,7 @@ class UI():
             '<<addItemContainer>>',
             '<<editItemContainer>>',
             '<<removeItemContainer>>',
+            '<<setLocation>>',
             '<<addLocation>>',
             '<<editLocation>>',
             '<<removeLocation>>'
@@ -84,6 +89,8 @@ class UI():
                 print("Recipe edited!")
             case "<<removeItemContainer>>":
                 print("Recipe removed!")
+            case "<<setLocation>>":
+                print("Location set!")
             case "<<addLocation>>":
                 print("Location added!")
             case "<<editLocation>>":
